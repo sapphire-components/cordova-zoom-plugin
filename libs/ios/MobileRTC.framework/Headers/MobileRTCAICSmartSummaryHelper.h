@@ -1,105 +1,127 @@
-//
-//  MobileRTCAICSmartSummaryHelper.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 5/23/24.
-//  Copyright © 2024 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCAICSmartSummaryHelper.h
+ * @brief AI Companion smart summary helper for meeting summaries.
+ * The AI Companion brand has been retired. AI-powered features are now more deeply integrated throughout Zoom Workplace. Existing APIs and SDKs that reference AI Companion will continue to function as before to ensure backward compatibility.
+ */
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class MobileRTCStartSmartSummaryHandler
+ * @brief Handler to start smart summary feature or handle start requests.
+ */
 @interface MobileRTCStartSmartSummaryHandler : NSObject
-/*!
- * @brief Start meeting summary.
- * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
+/**
+ * @brief Starts meeting summary.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)startSmartSummary;
 
-/*!
- * @brief Determine if this handler is for requesting to start the smart summary.
- * @return True means this handler is for request start smart summary. Otherwise not.
+/**
+ * @brief Determines if this handler is for requesting to start the smart summary.
+ * @return YES if this handler is for requesting to start smart summary. Otherwise, NO.
  */
 - (BOOL)isForRequest;
 
 @end
 
+/**
+ * @class MobileRTCStopSmartSummaryHandler
+ * @brief Handler to stop the smart summary feature.
+ */
 @interface MobileRTCStopSmartSummaryHandler : NSObject
 
-/*!
- * @brief Stop meeting summary.
- * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
+/**
+ * @brief Stops meeting summary.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)stopSmartSummary;
 
 @end
 
+/**
+ * @class MobileRTCApproveStartSmartSummaryHandler
+ * @brief Handler to approve or decline requests to start smart summary.
+ */
 @interface MobileRTCApproveStartSmartSummaryHandler : NSObject
-/*!
- * @brief Get the user ID of requester.
- * @return The user ID of requester.
+/**
+ * @brief Gets the requester's user ID.
+ * @return The requester's user ID. It may return 0 in cross-instance callback cases.
  */
 - (NSUInteger)getSenderUserID;
 
-/*!
- * @brief Approve request.
- * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
+/**
+ * @brief Gets the requester's display name.
+ * @return The requester's display name. Returns an empty string if unavailable.
+ */
+- (NSString *)getRequestUserName;
+
+/**
+ * @brief Approves the request.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)approve;
 
-/*!
- * @brief Decline request.
- * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
+/**
+ * @brief Declines the request.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)decline;
 
 @end
 
 
+/**
+ * @protocol MobileRTCAICompanionSmartSummaryHelperDelegate
+ * @brief Delegate protocol to receive Smart Summary feature status updates and requests.
+ */
 @protocol MobileRTCAICompanionSmartSummaryHelperDelegate <NSObject>
 @optional
-/*!
- * @brief Notify the meting does not support smart summary.
+/**
+ * @brief Callback event when the meeting does not support smart summary.
  */
 - (void)onSmartSummaryStateNotSupported;
 
-/*!
- * @brief Notify the meting support smart summary but smart summary feature is disabled.
+/**
+ * @brief Callback event when the meeting supports smart summary but the smart summary feature is disabled.
  */
 - (void)onSmartSummaryStateSupportedButDisabled;
 
-/*!
- * @brief Notify the meeting smart summary is not started.
+/**
+ * @brief Callback event when the meeting smart summary is not started.
  * @param handler The handler to start smart summary.
  */
 - (void)onSmartSummaryStateEnabledButNotStarted:(MobileRTCStartSmartSummaryHandler *_Nullable)handler;
 
-/*!
- * @brief Notify the meeting smart summary is started.
+/**
+ * @brief Callback event when the meeting smart summary is started.
  * @param handler The handler to stop smart summary.
  * @warning If the user can not stop smart summary, the handler will be nil.
  */
 - (void)onSmartSummaryStateStarted:(MobileRTCStopSmartSummaryHandler *_Nullable)handler;
 
-/*!
- * @brief Notify failed to start the smart summary.
- * @param bTimeout True means timeout. Otherwise no timeout. May be declined by host or cohost.
+/**
+ * @brief Callback event when starting the smart summary fails.
+ * @param bTimeout YES if timeout. Otherwise, NO. May be declined by host or co-host.
  */
 - (void)onFailedToStartSmartSummary:(BOOL)bTimeout;
 
-/*!
- * @brief Notify receive request to start smart summary.
- * @param handler The handler to handle request.
+/**
+ * @brief Callback event when receiving a request to start smart summary.
+ * @param handler The handler to handle the request.
  */
 - (void)onSmartSummaryStartRequestReceived:(MobileRTCApproveStartSmartSummaryHandler *_Nullable)handler;
 
 @end
 
-/*!
+/**
+ * @class MobileRTCAICompanionSmartSummaryHelper.
  * @brief Smart Summary Helper in ZOOM meeting.
  */
 @interface MobileRTCAICompanionSmartSummaryHelper : NSObject
+
 @property(nonatomic, weak) id<MobileRTCAICompanionSmartSummaryHelperDelegate> delegate;
 
 @end

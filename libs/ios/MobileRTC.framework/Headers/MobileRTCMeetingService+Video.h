@@ -1,243 +1,361 @@
-//
-//  MobileRTCMeetingService+Video.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2018/6/6.
-//  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+Video.h
+ * @brief Meeting+Video service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
+#import <AVFoundation/AVFoundation.h>
 
+/**
+ * @class MobileRTCVideoPreferenceSetting
+ * @brief Video Preference Setting.
+ * @note When setting custom modes, the developer provides the maximum and minimum frame rates.
+ * @note If the current bandwidth cannot maintain the minimum frame rate, the video system will drop to the next lower resolution.
+ * @note The default maximum and minimum frame rates for other modes are 0.
+ */
+@interface MobileRTCVideoPreferenceSetting : NSObject
+/**
+ * @brief Preferred video mode. 
+ * @note 0: Balance mode; 1: Smoothness mode; 2: Sharpness mode; 3: Custom mode
+ */
+@property (nonatomic, assign) MobileRTCVideoPreferenceMode mode;
+
+/**
+ * @brief Minimum frame rate, default is 0, minimumFrameRate should be less than maximumFrameRate.
+ * @note Range: from 0 to 30. Out of range for frame rate will use default frame rate of Zoom.
+ */
+@property (nonatomic, assign) NSUInteger minimumFrameRate;
+
+/**
+ * @brief Maximum frame rate, default is 0, , maximumFrameRate should be less or equal than 30.
+ * @note Range: from 0 to 30. Out of range for frame rate will use default frame rate of Zoom.
+ */
+@property (nonatomic, assign) NSUInteger maximumFrameRate;
+
+@end
+
+/**
+ * @class MobileRTCCameraDevice
+ * @brief Camera information.
+ */
+@interface MobileRTCCameraDevice : NSObject
+/**
+ * @brief Camera device ID.
+ */
+@property (nonatomic, readonly, nullable, copy) NSString* deviceId;
+/**
+ * @brief Camera name.
+ */
+@property (nonatomic, readonly, nullable, copy) NSString* deviceName;
+/**
+ * @brief Is current use.
+ */
+@property (nonatomic, readonly, assign)         BOOL isSelectDevice;
+/**
+ * @brief Camera position.
+ */
+@property (nonatomic, readonly, assign)         AVCaptureDevicePosition position;
+/**
+ * @brief Camera device type.
+ */
+@property (nonatomic, readonly, nullable, copy) AVCaptureDeviceType deviceType;
+/**
+ * @brief Camera maximum zoom factor. Maximum supported is 10.
+ */
+@property (nonatomic, readonly, assign)         CGFloat maxZoomFactor;
+/**
+ * @brief The maximum optical zoom factor.
+ */
+@property (nonatomic, readonly, assign)         CGFloat videoZoomFactorUpscaleThreshold;
+
+@end
+
+
+/**
+ * @brief video interface of meeting service.
+ */
 @interface MobileRTCMeetingService (Video)
 
-/*!
- @brief Query if the user is sending video.  
- @return YES means sending, otherwise not.
+/**
+ * @brief Queries if the user is sending video.
+ * @return YES if sending. Otherwise, NO.
  */
 - (BOOL)isSendingMyVideo;
 
-/*!
- @brief Query if user can unmute his video himself.
- @return YES means able, otherwise not.
+/**
+ * @brief Queries if the user can unmute their video themselves.
+ * @return YES if able. Otherwise, NO.
  */
 - (BOOL)canUnmuteMyVideo;
 
-/*!
- @brief Set to mute video of the current user.
- @param mute YES means to mute video of the current user, otherwise not.
- @return The result of operation.
+/**
+ * @brief Mutes or unmutes video of the current user.
+ * @param mute YES to mute video of the current user. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)muteMyVideo:(BOOL)mute;
 
-/*!
- @brief Rotate my video.
- @return the result of it.
+/**
+ * @brief Rotates my video.
+ * @param rotation The device orientation.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
  */
 - (BOOL)rotateMyVideo:(UIDeviceOrientation)rotation;
 
-/*!
- @brief Query if user's video is spotlighted. Once the user's video is spotlighted, it will show only the specified video in the meeting instead of active user's.  
- @param userId The ID of user in meeting.
- @return YES means spotlighted, otherwise not.
+/**
+ * @brief Queries if the user's video is spotlighted. Once the user's video is spotlighted, it shows only the specified video in the meeting instead of the active user's.
+ * @param userId The user ID in the meeting.
+ * @return YES if spotlighted. Otherwise, NO.
  */
 - (BOOL)isUserSpotlighted:(NSUInteger)userId;
 
-/*!
- @brief Set whether to spotlight user's video.
- @param on YES means to spotlight user's video; NO means that spotlight user's video will be canceled.
- @param userId The ID of user whose video will be spotlighted in the meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/cohost can run the function, and user spotlighted should not be the host himself.
+/**
+ * @brief Sets whether to spotlight the user's video.
+ * @param on YES to spotlight the user's video. NO to cancel spotlighting the user's video.
+ * @param userId The user ID whose video will be spotlighted in the meeting.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function, and the user spotlighted should not be the host themselves.
  */
 - (BOOL)spotlightVideo:(BOOL)on withUser:(NSUInteger)userId;
 
-/*!
- @brief Un-spotlight all the user.
- @return Yes means follow, otherwise not.
- @warning Only meeting host/cohost can run the function, and user spotlighted should not be the host himself.
+/**
+ * @brief Un-spotlights all users.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)unSpotlightAllVideos;
 
-/*!
- @brief get spotlight user list.
- @return userId array.
+/**
+ * @brief Gets the spotlight user list.
+ * @return UserId array.
  */
 - (NSArray <NSNumber *>* _Nullable)getSpotLightedVideoUserList;
 
-/*!
- @brief Query if the user's video is pinned. 
- @param userId The ID of user whose video will be pinned in the meeting.
- @return YES means that the user's video is pinned, otherwise not.
- @warning The function is only for Zoom UI.
+/**
+ * @brief Queries if the user's video is pinned.
+ * @param userId The user ID whose video will be pinned in the meeting.
+ * @return YES if the user's video is pinned. Otherwise, NO.
+ * @warning This function is only for Zoom UI.
  */
 - (BOOL)isUserPinned:(NSUInteger)userId;
 
-/*!
- @brief Set whether to pin user's video or not. 
- @param on YES means to pin user's video, otherwise not. 
- @param userId The ID of user whose video will be pinned.
- @return YES means that the method is called successfully, otherwise not.
- @warning The function is only for Zoom UI.
+/**
+ * @brief Determines whether the user's video can be pinned.
+ * @param userId The user ID whose video is being checked.
+ * @return The result indicating if it is able to pin.
+ */
+-(MobileRTCPinResult)canPinVideo:(NSUInteger)userId;
+
+/**
+ * @brief Sets whether to pin the user's video or not.
+ * @param on YES to pin the user's video. Otherwise, NO.
+ * @param userId The user ID whose video will be pinned.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning This function is only for Zoom UI.
  */
 - (BOOL)pinVideo:(BOOL)on withUser:(NSUInteger)userId;
 
-/*!
- @brief Query if user's video is being sent.
- @param userID The ID of user whose video will be sent in meeting
- @return YES means that the video is being sent, otherwise not.
+/**
+ * @brief Queries if the user's video is being sent.
+ * @param userID The user ID whose video will be sent in the meeting.
+ * @return YES if the video is being sent. Otherwise, NO.
  */
 - (BOOL)isUserVideoSending:(NSUInteger)userID;
 
-/*!
- @brief Set to stop user's video.
- @param userID The ID of other users except the host in the meeting. 
- @return YES means that the method is called successfully, otherwise not.
- @warning Only host can run the function in the meeting.
+/**
+ * @brief Stops the user's video.
+ * @param userID The user ID of other users except the host in the meeting.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only host can run the function in the meeting.
  */
 - (BOOL)stopUserVideo:(NSUInteger)userID;
 
-/*!
- @brief Host can use this function to demand user to start video.
- @param userID The ID of user who needs to turn on video in meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only host can run the function in the meeting.
+/**
+ * @brief The host can use this function to demand the user to start video.
+ * @param userID The user ID who needs to turn on video in the meeting.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only host can run the function in the meeting.
  */
 - (BOOL)askUserStartVideo:(NSUInteger)userID;
 
-/*!
- @brief Get the size of user's video.
- @param userID The ID of user in the meeting. userID should be 0 when not in meeting.
- @return The size of user's video.
+/**
+ * @brief Gets the size of the user's video.
+ * @param userID The user ID in the meeting. userID should be 0 when not in meeting.
+ * @return The size of the user's video.
  */
 - (CGSize)getUserVideoSize:(NSUInteger)userID;
 
 #pragma mark Camera Related
-/*!
- @brief Query if user is using back camera.
- @return YES means using Back camera, otherwise not.
+/**
+ * @brief Queries if the user is using back camera.
+ * @return YES if using back camera. Otherwise, NO.
  */
 - (BOOL)isBackCamera;
 
-/*!
- @brief Set to Switch the camera of the current user in local device.
- @return The result of operation. 
+/**
+ * @brief Switches the camera of the current user in the local device.
+ * @return The result of operation. 
  */
 - (MobileRTCCameraError)switchMyCamera;
 
-/*!
- @brief Qurry if the account support follow host video order feature or not.
- @return Yes means support, otherwise not.
+/**
+ * @brief Gets the camera device list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCCameraDevice objects. Otherwise, this function fails and returns nil.
+ * @warning Only iOS 17.0 or above and iPad device can get the external camera devices.
+ */
+- (NSArray <MobileRTCCameraDevice *>* _Nullable)getCameraDeviceList;
+
+/**
+ * @brief Switches camera by camera ID.
+ * @param cameraId The target camera ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ */
+- (BOOL)switchCamera:(NSString * _Nullable)cameraId;
+
+/**
+ * @brief Gets the current camera device in use.
+ * @return If the function succeeds, it returns a MobileRTCCameraDevice object. Otherwise, this function fails and returns nil.
+ */
+- (MobileRTCCameraDevice * _Nullable)getSelectedCamera;
+
+/**
+ * @brief Zooms the camera in or out.
+ * @param velocity The zoom velocity.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Please refer to the MobileRTCCameraDevice class. The value of maxZoomFactor means the camera's maximum zoom factor. The value of videoZoomFactorUpscaleThreshold means the maximum scale of optical zoom factor.
+ */
+- (BOOL)zoomCamera:(CGFloat)velocity;
+
+/**
+ * @brief Sets the video quality preference that automatically adjusts the user's video to prioritize frame rate vs. resolution based on the current bandwidth available.
+ * @param preferenceSetting The video quality preference.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning This only supports the raw data render model.
+ */
+- (MobileRTCSDKError)setVideoQualityPreference:(MobileRTCVideoPreferenceSetting * _Nullable)preferenceSetting;
+
+/**
+ * @brief Queries if the account supports follow host video order feature.
+ * @return YES if supported. Otherwise, NO.
  */
 - (BOOL)isSupportFollowHostVideoOrder;
 
-/*!
- @brief Qurry if follow host video order or not currently.
- @return Yes means follow, otherwise not.
+/**
+ * @brief Queries if follow host video order is currently on.
+ * @return YES if follow. Otherwise, NO.
  */
 - (BOOL)isFollowHostVideoOrderOn;
 
-/*!
- @brief get follow host video order array currently.
- @return userId array.
+/**
+ * @brief Gets the host video order list.
+ * @return UserId array, or nil if the host has not updated the video order.
+ * @note This method only returns the order list based on the host's video order (hostVideoOrder).
+ * If the host has not updated the video order, this list will be empty.
  */
 - (NSArray <NSNumber *>* _Nullable)getVideoOrderList;
 
-/*!
- @brief Stop the incoming video.
- @param enable YES indicates to enable to stop incoming video.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
- Otherwise the function fails and returns an error. To get extended error information, see [MobileRTCSDKError] enum.
+/**
+ * @brief Gets the local video order list.
+ * @return UserId array, or nil if the local video order hasn't been received yet.
+ * @note This list reflects the local video order as last received via the onLocalVideoOrderUpdated callback.
+ * The local video order is updated whenever onLocalVideoOrderUpdated is triggered.
+ */
+- (NSArray <NSNumber *>* _Nullable)getLocalVideoOrderList;
+
+/**
+ * @brief Stops the incoming video.
+ * @param enable YES to enable to stop incoming video. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)stopIncomingVideo:(BOOL)enable;
 
-/*!
- @brief Determine if the incoming video is stopped.
- @return YES indicates to the incoming video is stopped.
+/**
+ * @brief Determines if the incoming video is stopped.
+ * @return YES if the incoming video is stopped. Otherwise, NO.
  */
 - (BOOL)isIncomingVideoStoped;
 
-/*!
- @brief Determine if the incoming video is supported.
- @return YES indicates to the incoming video is supported.
+/**
+ * @brief Determines if the incoming video is supported.
+ * @return YES if the incoming video is supported. Otherwise, NO.
  */
 - (BOOL)isStopIncomingVideoSupported;
 
-/*!
- @brief Enable my video auto-framing.
- @param mode the auto-framing mode.
- @param setting the auto-framing parameter.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
+/**
+ * @brief Enables my video auto-framing.
+ * @param setting The auto-framing parameter.
+ * @param mode The auto-framing mode.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)enableVideoAutoFraming:(MobileRTCAutoFramingParameter * _Nullable)setting forMode:(MobileRTCAutoFramingMode)mode;
 
-/*!
- @brief Stop video auto-framing.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
+/**
+ * @brief Stops video auto-framing.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)disableVideoAutoFraming;
 
-/*!
- @brief Determine whether auto-framing is enabled.
- @return YES indicates enabled. NO not.
+/**
+ * @brief Determines whether auto-framing is enabled.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)isVideoAutoFramingEnabled;
 
-/*!
- @brief Get current mode of auto-framing.
- @return the current auto-framing mode.
+/**
+ * @brief Gets the current mode of auto-framing.
+ * @return The current auto-framing mode.
  */
 - (MobileRTCAutoFramingMode)getVideoAutoFramingMode;
 
-/*!
- @brief Set the mode of auto-framing when auto-framing is enabled.
- @param mode the auto-framing mode.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
+/**
+ * @brief Sets the mode of auto-framing when auto-framing is enabled.
+ * @param mode The auto-framing mode.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)setVideoAutoFramingMode:(MobileRTCAutoFramingMode)mode;
 
-/*!
- @brief Set the mode of auto-framing when auto-framing is enabled.
- @param ratio the zoom in ratio of auto-framing, valid range of ratio:
-        a. mode is "MobileRTCAutoFramingMode_CenterCoordinates", 1~10.
-        b. mode is "MobileRTCAutoFramingMode_FaceRecognition", 0.1~10
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
+/**
+ * @brief Sets the zoom in ratio of auto-framing when auto-framing is enabled.
+ * @param ratio The zoom in ratio of auto-framing. Valid range of ratio: A. mode is "MobileRTCAutoFramingMode_CenterCoordinates", 1~10. B. mode is "MobileRTCAutoFramingMode_FaceRecognition", 0.1~10.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)setVideoAutoFramingRatio:(CGFloat)ratio;
 
-/*!
- @brief Set the fail strategy of face recognition when auto-framing is enabled(mode is "MobileRTCAutoFramingMode_FaceRecognition").
- @param  strategy the fail strategy of face recognition.
- @return  If the function succeeds, the return value is MobileRTCSDKError_Success.
+/**
+ * @brief Sets the fail strategy of face recognition when auto-framing is enabled (mode is \link MobileRTCAutoFramingMode_FaceRecognition \endlink).
+ * @param strategy The fail strategy of face recognition.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)setFaceRecognitionFailStrategy:(MobileRTCFaceRecognitionFailStrategy)strategy;
 
-/*!
- @brief Get the setting of auto-framing.
- @param mode the auto-framing mode.
- @return the auto-framing parameter of the specify mode or nil.
+/**
+ * @brief Gets the setting of auto-framing.
+ * @param mode The auto-framing mode.
+ * @return If the function succeeds, it returns a MobileRTCAutoFramingParameter object. Otherwise, this function fails and returns nil.
  */
 - (MobileRTCAutoFramingParameter * _Nullable)getVideoAutoFramingSetting:(MobileRTCAutoFramingMode)mode;
 
-/*!
- @brief Determine if alpha channel mode can be enabled.
- @return YES means it can be enabled. Otherwise NO.  Only for host call.
- @warning Only host can enable alpha channel.
+/**
+ * @brief Determines if alpha channel mode can be enabled.
+ * @return YES if it can be enabled. Otherwise, NO. Only for host call.
+ * @warning Only host can enable alpha channel.
  */
 - (BOOL)canEnableAlphaChannelMode;
 
-/*!
- @brief Enable or disable alpha channel mode.
- @param enable YES indicates to enable alpha channel mode., Otherwise, disable it.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed.
- @warning Only host can enable alpha channel.
- @warning  This function will enable the meeting alpha channel, even if the current iOS device not support alpha channel.
- @warning for iOS device should be iPhone 8/ 8 plus X or above or be iPad Pro 9.7 above, OS should be iOS 11 or above
+/**
+ * @brief Enables or disables alpha channel mode.
+ * @param enable YES to enable alpha channel mode. Otherwise, NO to disable it.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only host can enable alpha channel.
+ * @warning This function enables the meeting alpha channel, even if the current iOS device does not support alpha channel.
+ * @warning For iOS device should be iPhone 8/8 Plus/X or above or be iPad Pro 9.7 above. OS should be iOS 11 or above.
  */
 - (MobileRTCSDKError)enableAlphaChannelMode:(BOOL)enable;
 
-/*!
- @brief Determine if alpha channel mode is enabled.
- @return YES indicates is in alpha channel mode. Otherwise NO.
+/**
+ * @brief Determines if alpha channel mode is enabled.
+ * @return YES if in alpha channel mode. Otherwise, NO.
  */
 - (BOOL)isAlphaChannelModeEnabled;
+
 @end

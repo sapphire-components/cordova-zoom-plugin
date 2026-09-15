@@ -1,295 +1,296 @@
-//
-//  MobileRTCMeetingService+QA.h
-//  MobileRTC
-//
-//  Created by Zoom on 12/29/2023.
-//  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+QA.h
+ * @brief Meeting+QA service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 #import <MobileRTC/MobileRTCQAItem.h>
 
+/**
+ * @brief QA of MobileRTCMeetingService
+ */
 @interface MobileRTCMeetingService (QA)
 
-/*!
- @brief Query if Q&A is support of this meeting.
- @return YES means that Q&A is enabled, otherwise not.
+/**
+ * @brief Queries if Q&A is supported in this meeting.
+ * @return YES if Q&A is enabled. Otherwise, NO.
  */
 - (BOOL)isQAEnabled;
 
-/*!
- @brief Set to enable/disable meeting QA.
- @param enable YES means enabled, NO disabled.
- @return If the function succeeds, it will return MobileRTCSDKError_Success. Otherwise failed.
+/**
+ * @brief Enables or disables meeting QA.
+ * @param enable YES to enable. Otherwise, NO to disable.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)enableMeetingQAFeature:(BOOL)enable;
 
-/*!
- @brief Query if meeting QA is enabled in current meeting.
- @return YES means enabled, otherwise not.
+/**
+ * @brief Queries if meeting QA is enabled in the current meeting.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)isMeetingQAFeatureOn;
 
-/*!
- @brief  Determine if the ask question is allowed by the host/co-host.
- @return If return YES means can ask question,otherwise not.
+/**
+ * @brief Determines if asking questions is allowed by the host or co-host.
+ * @return YES if can ask question. Otherwise, NO.
  */
 - (BOOL)isAskQuestionEnabled;
 
-/*!
- @brief Set attendee can ask question.
- @param enable If set YES means attendee can ask question,Otherwise not.
- @return If the function succeeds, it will return MobileRTCSDKError_Success. Otherwise failed.
+/**
+ * @brief Sets whether attendee can ask questions.
+ * @param enable YES if attendee can ask questions. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)enableAskQuestion:(BOOL)enable;
-/*!
- @brief Set to present Zoom original Q&A ViewController.
- @param parentVC which use to present ViewController
- @return YES means that the method is called successfully, otherwise not.
+/**
+ * @brief Presents Zoom original Q&A ViewController.
+ * @param parentVC The view controller used to present ViewController.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
  */
 - (BOOL)presentQAViewController:(nonnull UIViewController*)parentVC;
-/*!
- @brief Query if it is allowed to ask question anonymously in webinar.
- @return YES means allowed, otherwise not.
+/**
+ * @brief Queries if it is allowed to ask questions anonymously in webinar.
+ * @return YES if allowed. Otherwise, NO.
  */
 - (BOOL)isAllowAskQuestionAnonymously;
 
-/*!
- @brief Set if it is enabled to ask questions anonymously.
- @param enable Enable/Disable to ask questions anonymously.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run this function.
+/**
+ * @brief Sets if it is enabled to ask questions anonymously.
+ * @param enable YES to enable. Otherwise, NO to disable.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run this function.
  */
 - (BOOL)allowAskQuestionAnonymously:(BOOL)enable;
 
-/*!
- @brief Query if attendee is allowed to view all question.
- @return YES means allowed, otherwise not.
+/**
+ * @brief Queries if attendee is allowed to view all questions.
+ * @return YES if allowed. Otherwise, NO.
  */
 - (BOOL)isAllowAttendeeViewAllQuestion;
 
-/*!
- @brief Allow attendee to view all question.
- @param enable Enable/Disable attendee to view all questions.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run this function.
+/**
+ * @brief Allows or disallows attendee to view all questions.
+ * @param enable YES to enable. Otherwise, NO to disable.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run this function.
  */
 - (BOOL)allowAttendeeViewAllQuestion:(BOOL)enable;
 
-/*!
- @brief Query if attendee is allowed to submit questions. 
- @return YES means allowed, otherwise not.
+/**
+ * @brief Queries if attendee is allowed to upvote questions.
+ * @return YES if allowed. Otherwise, NO.
  */
 - (BOOL)isAllowAttendeeUpVoteQuestion;
 
-/*!
- @brief Allow attendee to submit questions.
- @param enable Allow/Disallow attendee to submit question.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Allows or disallows attendee to upvote questions.
+ * @param enable YES to allow. Otherwise, NO to disallow.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)allowAttendeeUpVoteQuestion:(BOOL)enable;
 
-/*!
- @brief Query if attendee is allowed to comment questions.
- @return YES means allowed, otherwise not.
+/**
+ * @brief Queries if attendee is allowed to comment on questions.
+ * @return YES if allowed. Otherwise, NO.
  */
 - (BOOL)isAllowCommentQuestion;
 
-/*!
- @brief Allow attendee to comment question.
- @param enable Allow/Disallow attendee to comment question.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Allows or disallows attendee to comment on questions.
+ * @param enable YES to allow. Otherwise, NO to disallow.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)allowCommentQuestion:(BOOL)enable;
 
-/*!
- @brief Get all questions.
- @return All questions list.
+/**
+ * @brief Gets all questions.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCQAItem objects. Otherwise, this function fails and returns nil.
  */
 - (nullable NSArray <MobileRTCQAItem *> *)getAllQuestionList;
 
-/*!
- @brief Get My questions.
- @return My questions list.
- @warning Only attendee can run the function.
+/**
+ * @brief Gets my questions.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCQAItem objects. Otherwise, this function fails and returns nil.
+ * @warning Only attendee can run the function.
  */
 - (nullable NSArray <MobileRTCQAItem *> *)getMyQuestionList;
 
-/*!
- @brief Get Open questions.
- @return Open questions list.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Gets open questions.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCQAItem objects. Otherwise, this function fails and returns nil.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (nullable NSArray <MobileRTCQAItem *> *)getOpenQuestionList;
 
-/*!
- @brief Get Dismissed questions.
- @return Dismissed questions list.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Gets dismissed questions.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCQAItem objects. Otherwise, this function fails and returns nil.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (nullable NSArray <MobileRTCQAItem *> *)getDismissedQuestionList;
 
-/*!
- @brief Get Answered questions.
- @return Answered questions list.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Gets answered questions.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCQAItem objects. Otherwise, this function fails and returns nil.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (nullable NSArray <MobileRTCQAItem *> *)getAnsweredQuestionList;
 
-/*!
- @brief Get the amount of all questions.
- @return Amount of all questions.
+/**
+ * @brief Gets the amount of all questions.
+ * @return The amount of all questions.
  */
 - (int)getALLQuestionCount;
 
-/*!
- @brief Get the amount of my questions.
- @return Amount of open-ended questions.
+/**
+ * @brief Gets the amount of my questions.
+ * @return The amount of my questions.
  */
 - (int)getMyQuestionCount;
 
-/*!
- @brief Get the amount of Open questions.
- @return Amount of open-ended questions.
+/**
+ * @brief Gets the amount of open questions.
+ * @return The amount of open questions.
  */
 - (int)getOpenQuestionCount;
 
-/*!
- @brief Get the amount of dissmissed questions.
- @return Amount of open-ended questions.
+/**
+ * @brief Gets the amount of dismissed questions.
+ * @return The amount of dismissed questions.
  */
 - (int)getDismissedQuestionCount;
 
-/*!
- @brief Get the amount of answered questions.
- @return Amount of open-ended questions.
+/**
+ * @brief Gets the amount of answered questions.
+ * @return The amount of answered questions.
  */
 - (int)getAnsweredQuestionCount;
 
-/*!
- @brief get question item by questionID.
- @param questionID question id.
- @return the question item.
+/**
+ * @brief Gets question item by question ID.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns a MobileRTCQAItem object. Otherwise, this function fails and returns nil.
  */
 - (nullable MobileRTCQAItem *)getQuestion:(nonnull NSString *)questionID;
 
-/*!
- @brief get answer item by questionID.
- @param answerID answer id.
- @return the answer item.
+/**
+ * @brief Gets answer item by answer ID.
+ * @param answerID The answer ID.
+ * @return If the function succeeds, it returns a MobileRTCQAAnswerItem object. Otherwise, this function fails and returns nil.
  */
 - (nullable MobileRTCQAAnswerItem *)getAnswer:(nonnull NSString *)answerID;
 
-/*!
- @brief Add Quesion.
- @param content question content.
- @param anonymous if true anonymously.
- @return successs or not.
- @warning Only attendee can run the function.
+/**
+ * @brief Adds a question.
+ * @param content The question content.
+ * @param anonymous YES if anonymously. Otherwise, NO.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only attendee can run the function.
  */
 - (BOOL)addQuestion:(nonnull NSString *)content anonymous:(BOOL)anonymous;
 
-/*!
- @brief Answer quesion in private.
- @param questionID question id.
- @param answerContent answer content.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Answers a question in private.
+ * @param questionID The question ID.
+ * @param answerContent The answer content.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)answerQuestionPrivate:(nonnull NSString *)questionID answerContent:(nonnull NSString *)answerContent;
 
-/*!
- @brief Answer Quesion.
- @param questionID question id.
- @param answerContent question content.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Answers a question publicly.
+ * @param questionID The question ID.
+ * @param answerContent The answer content.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)answerQuestionPublic:(nonnull NSString *)questionID answerContent:(nonnull NSString *)answerContent;
 
-/*!
- @brief Attendee comment Quesion.
- @param questionID question id.
- @param commentContent comment content.
- @return successs or not.
- @warning Only meeting attendee can run the function.
+/**
+ * @brief Attendee comments on a question.
+ * @param questionID The question ID.
+ * @param commentContent The comment content.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting attendee can run the function.
  */
 - (BOOL)commentQuestion:(nonnull NSString *)questionID commentContent:(nonnull NSString *)commentContent;
 
-/*!
- @brief Dismiss Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Dismisses a question.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)dismissQuestion:(nonnull NSString *)questionID;
 
-/*!
- @brief Reopen Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Reopens a question.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)reopenQuestion:(nonnull NSString *)questionID;
 
-/*!
- @brief Vote up Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Votes up a question.
+ * @param questionID The question ID.
+ * @param voteup YES to vote up. Otherwise, NO.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)voteupQuestion:(nonnull NSString *)questionID voteup:(BOOL)voteup;
 
-/*!
- @brief startLiving Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Starts living a question.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)startLiving:(nonnull NSString *)questionID;
 
-/*!
- @brief endLiving Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Ends living a question.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)endLiving:(nonnull NSString *)questionID;
 
-/*!
- @brief delete Quesion.
- @param questionID question id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Deletes a question.
+ * @param questionID The question ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)deleteQuestion:(nonnull NSString *)questionID;
 
-/*!
- @brief delete answerID.
- @param answerID answerID id.
- @return successs or not.
- @warning Only meeting host/co-host/panelist can run the function.
+/**
+ * @brief Deletes an answer.
+ * @param answerID The answer ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host, co-host, or panelist can run the function.
  */
 - (BOOL)deleteAnswer:(nonnull NSString *)answerID;
 
-/*!
-@brief Is QA legal notice available.
-@return available or not.
-*/
+/**
+ * @brief Determines if QA legal notice is available.
+ * @return YES if available. Otherwise, NO.
+ */
 - (BOOL)isQALegalNoticeAvailable;
 
-/*!
-@brief Get QA legal notices prompt.
-@return QA legal notices prompt.
-*/
+/**
+ * @brief Gets QA legal notices prompt.
+ * @return The QA legal notices prompt.
+ */
 - (NSString *_Nullable)getQALegalNoticesPrompt;
 
-/*!
-@brief Get QA legal notices explained.
-@return QA legal notices explained.
-*/
+/**
+ * @brief Gets QA legal notices explained.
+ * @return The QA legal notices explained.
+ */
 - (NSString *_Nullable)getQALegalNoticesExplained;
 
 

@@ -1,24 +1,24 @@
-//
-//  MobileRTCMeetingService+RawArchiving.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2022/7/25.
-//  Copyright © 2022 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+RawArchiving.h
+ * @brief Meeting+RawArchiving service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 
+/**
+ * @brief Interface for managing raw archiving privilege in Zoom SDK.
+ */
 @interface MobileRTCMeetingService (RawArchiving)
 
 /**
- * @brief Start raw archiving and get raw data receive previlege.
- * @return YES if start raw archiving succeeds. Otherwise failed.
+ * @brief Starts raw archiving and gets raw data receive privilege.
+ * @return YES if starting raw archiving succeeds. Otherwise, NO.
  */
 - (BOOL)startRawArchiving;
 
 /**
- * @brief Stop raw archiving and revoke rawdata receive previlege.
- * @return YES if stop raw archiving succeeds. Otherwise failed.
+ * @brief Stops raw archiving and revokes raw data receive privilege.
+ * @return YES if stopping raw archiving succeeds. Otherwise, NO.
  */
 - (BOOL)stopRawArchiving;
 

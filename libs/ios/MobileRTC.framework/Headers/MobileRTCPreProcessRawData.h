@@ -1,57 +1,64 @@
-//
-//  MobileRTCPreProcessRawData.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2020/2/26.
-//  Copyright © 2020 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCPreProcessRawData.h
+ * @brief Raw data preprocessing utilities.
+ */
 
 #import <Foundation/Foundation.h>
 
+/**
+ * @class MobileRTCPreProcessRawData
+ * @brief A class that contains YUV video frame data.
+ */
 @interface MobileRTCPreProcessRawData : NSObject
 
-/*!
- @brief the size of video data.
+/**
+ * @brief The size of the video data.
  */
 @property (nonatomic, assign) CGSize size;
 
-/*!
- @brief y data pointer of video's YUV data stride.
+/**
+ * @brief The Y stride.
  */
 @property (nonatomic, assign) int yStride;
 
-/*!
- @brief u data pointer of video's YUV data stride.
+/**
+ * @brief The U stride.
  */
 @property (nonatomic, assign) int uStride;
 
-/*!
- @brief v data pointer of video's YUV data stride.
+/**
+ * @brief The V stride.
  */
 @property (nonatomic, assign) int vStride;
 
-/*!
-@brief y data pointer of video's YUV data .
-*/
+/**
+ * @brief Gets the Y buffer.
+ * @param lineNum The line number.
+ * @return If the function succeeds, it returns the Y buffer.
+ */
 - (char *)getYBuffer:(int)lineNum;
 
-/*!
-@brief u data pointer of video's YUV data .
-*/
+/**
+ * @brief Gets the U buffer.
+ * @param lineNum The line number.
+ * @return If the function succeeds, it returns the U buffer.
+ */
 - (char *)getUBuffer:(int)lineNum;
 
-/*!
-@brief v data pointer of video's YUV data .
-*/
+/**
+ * @brief Gets the V buffer.
+ * @param lineNum The line number.
+ * @return If the function succeeds, it returns the V buffer.
+ */
 - (char *)getVBuffer:(int)lineNum;
 
-/*!
- @brief The raw data format of video data
+/**
+ * @brief The raw data format of the video data.
  */
 @property (nonatomic, assign) MobileRTCFrameDataFormat format;
 
-/*!
- @brief The direction of video data.
+/**
+ * @brief The video data rotation.
  */
 @property (nonatomic, assign) MobileRTCVideoRawDataRotation rotation;
 

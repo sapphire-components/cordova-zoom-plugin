@@ -1,26 +1,27 @@
-//
-//  MobileRTCReturnToMainSessionHandler.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2021/5/31.
-//  Copyright © 2021 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCReturnToMainSessionHandler.h
+ * @brief Handler for returning to main session from breakout rooms.
+ */
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * @class MobileRTCReturnToMainSessionHandler
+ * @brief A handler for returning to main session from breakout meeting.
+ */
 @interface MobileRTCReturnToMainSessionHandler : NSObject
 
-/*!
-@brief go back to main session for the main session invitation.
-@return whether return succeed or not.
-*/
+/**
+ * @brief Returns to main session for the main session invitation.
+ * @return YES if return succeeds. Otherwise, NO.
+ */
 - (BOOL)returnToMainSession;
 
-/*!
-@brief ingore the main session invitation.
-*/
+/**
+ * @brief Ignores the main session invitation.
+ */
 - (void)ignore;
 
 @end

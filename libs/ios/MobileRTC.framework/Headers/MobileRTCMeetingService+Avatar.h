@@ -1,100 +1,98 @@
-//
-//  MobileRTCMeetingService+Avatar.h
-//  MobileRTC
-//
-//  Created by Zoom on 10/10/22.
-//  Copyright © 2022 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+Avatar.h
+ * @brief Meeting+Avatar service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 
-/*!
-@brief 3d avatar image item.
-*/
+/**
+ * @class MobileRTC3DAvatarImageInfo
+ * @brief 3d avatar image item.
+ */
 @interface MobileRTC3DAvatarImageInfo : NSObject
-/*!
- @brief Determine the usage of current image.
+/**
+ * @brief YES if the current image is selected. Otherwise, NO.
  */
 @property (nonatomic, assign) BOOL isSelected;
 
-/*!
- @brief Get the file path of current image.
+/**
+ * @brief The file path of the current image.
  */
 @property (nonatomic, copy) NSString * _Nullable imagePath;
 
-/*!
- @brief Get the name of current image.
+/**
+ * @brief The name of the current image.
  */
 @property (nonatomic, copy) NSString * _Nullable imageName;
 
-/*!
- @brief Get the index of current image.
+/**
+ * @brief The index of the current image.
  */
 @property (nonatomic, assign) NSInteger index;
 
-/*!
- @brief Determine if it is the most recently used image.
+/**
+ * @brief YES if it is the most recently used image. Otherwise, NO.
  */
 @property(nonatomic,assign) BOOL isLastUsed;
 
 @end
 
 
-/*!
- @brief for 3d avatar interface
+/**
+ * @brief For 3d avatar interface.
  */
 @interface MobileRTCMeetingService (Avatar)
-
-/*!
- @brief Determine if the 3D avatar feature is supported by video device.
- @return Yes indicates that the video device supports the 3D avatar feature.
+/**
+ * @brief Determines if the 3D avatar feature is supported by the video device.
+ * @return YES if the video device supports the 3D avatar feature. Otherwise, NO.
  */
 - (BOOL)is3DAvatarSupportedByDevice;
 
-/*!
- @brief Determine if the 3D avatar feature is enabled.
- @return Yes indicates the video filter feature is enabled.
+/**
+ * @brief Determines if the 3D avatar feature is enabled.
+ * @return YES if the video filter feature is enabled. Otherwise, NO.
  */
 - (BOOL)is3DAvatarEnabled;
 
-/*!
- @brief Get the array of the video filter images.
- @return the array of <MobileRTC3DAvatarImageInfo*> if the call success, otherwise return nil.
+/**
+ * @brief Gets the array of the video filter images.
+ * @return If the function succeeds, it returns an NSArray of MobileRTC3DAvatarImageInfo objects. Otherwise, this function fails and returns nil.
  */
 - (NSArray <MobileRTC3DAvatarImageInfo* >* _Nullable)get3DAvatarImageList;
 
-/*!
- @brief Specify an image to be the video filter image.
- @param imageInfo Specify the image to use.
- @return success of errors of this function call.
- @warning Will close the 3D avatar when the imageInfo.index is -1.
+/**
+ * @brief Specifies an image to be the video filter image.
+ * @param imageInfo The image to use.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Will close the 3D avatar when the imageInfo.index is -1.
  */
 - (MobileRTCSDKError)set3DAvatarImage:(MobileRTC3DAvatarImageInfo*_Nullable)imageInfo;
 
-/*!
- @brief Determine if show the last used avatar in the meeting.
- @param bShow YES indicates to show the last used avatar.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.Otherwise failed.
+/**
+ * @brief Sets to show or hide the last used avatar in the meeting.
+ * @param bShow YES to show the last used avatar. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)showAvatar:(BOOL)bShow;
 
-/*!
- @brief Determine if the meeting is showing the avatar.
- @return YES indicates the meeting is showing the avatar.
+/**
+ * @brief Determines if the meeting is showing the avatar.
+ * @return YES if the meeting is showing the avatar. Otherwise, NO.
  */
 - (BOOL)isShowAvatar;
 
-/*!
- @brief Enable or disable 3D avatar effect when join meeting
- @param enable Ture if enable 3D avatar effect, otherwise false
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, returns calling error. For more details, see [MobileRTCSDKError].
-*/
+/**
+ * @brief Enables or disables 3D avatar effect when joining meeting.
+ * @param enable YES to enable 3D avatar effect. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ */
 - (MobileRTCSDKError)enable3DAvatarEffectForAllMeeting:(BOOL)enable;
 
-/*!
- @brief Determine whether 3D avatar is enabled when the join meeting
- @return True if enabled, otherwise false.
+/**
+ * @brief Determines whether 3D avatar is enabled when joining the meeting.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)is3DAvatarEffectForAllMeetingEnabled;
+
 @end
 

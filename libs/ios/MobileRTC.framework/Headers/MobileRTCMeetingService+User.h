@@ -1,192 +1,274 @@
-//
-//  MobileRTCMeetingService+User.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2018/6/6.
-//  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+User.h
+ * @brief Meeting+User service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 
+/**
+ * @brief User of MobileRTCMeetingService
+ */
 @interface MobileRTCMeetingService (User)
 
-/*!
- @brief Set to change user's screen name in meeting.
- @param inputName The screen name displayed in meeting.
- @param userId User ID.
- @return YES means that the method is called successfully, otherwise not.
- @warning Normal user can change his own screen name, while the host/co-host can change all attendees' names. 
+/**
+ * @brief Changes the user's screen name in the meeting.
+ * @param inputName The screen name displayed in the meeting.
+ * @param userId The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Normal user can change their own screen name, while the host or co-host can change all attendees' names.
  */
 - (BOOL)changeName:(nonnull NSString*)inputName withUserID:(NSUInteger)userId;
 
-/*!
- @brief Get all the users in the meeting.
- @return user id array, each user id is a NSNumber object.
- @warning For Webinar Meeting, returned list does not include Attendee User
+/**
+ * @brief Gets all the users in the meeting.
+ * @return User id array, each user id is a NSNumber object.
+ * @warning For Webinar Meeting, returned list does not include Attendee User.
  */
 - (nullable NSArray <NSNumber *> *)getInMeetingUserList;
 
-/*!
- @brief Get all the attendees in the webinar.
- @return user id array, each Attendee id is a NSNumber object.
- @warning Only webinar meeting host/co-host/panelist can run the function.
+/**
+ * @brief Gets all the attendees in the webinar.
+ * @return User id array, each Attendee id is a NSNumber object.
+ * @warning Only webinar meeting host, co-host, or panelist can run the function.
  */
 - (nullable NSArray <NSNumber *> *)getWebinarAttendeeList;
-/*!
- @brief Get user information in the meeting.
- @param userId In-meeting user ID.
- @return User information.
- @warning webinar attendee can not call the function, please use: [attendeeInfoByID:].
+/**
+ * @brief Gets user information in the meeting.
+ * @param userId The in-meeting user ID.
+ * @return User information.
+ * @warning Webinar attendee cannot call the function. Please use \link attendeeInfoByID: \endlink.
  */
 - (nullable MobileRTCMeetingUserInfo*)userInfoByID:(NSUInteger)userId;
 
-/*!
- @brief Get attendees' information in the webinar.
- @param userId attendee's ID in meeting.
- @return attendee info, a MobileRTCMeetingWebinarAttendeeInfo object.
- @warning webinar meeting host/co-host/panelist can get other attendee info.
- @warning webinar attendee can only get their own attendee info.
+/**
+ * @brief Gets attendees' information in the webinar.
+ * @param userId The attendee's ID in the meeting.
+ * @return Attendee info, a MobileRTCMeetingWebinarAttendeeInfo object.
+ * @warning Webinar meeting host, co-host, or panelist can get other attendee info.
+ * @warning Webinar attendee can only get their own attendee info.
  */
 - (nullable MobileRTCMeetingWebinarAttendeeInfo*)attendeeInfoByID:(NSUInteger)userId;
 
-/*!
- @brief Assign a user as the host in meeting.
- @param userId The ID of user who is specified as host in meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning only meeting host can run this function, and userId should not be myself.
+/**
+ * @brief Assigns a user as the host in the meeting.
+ * @param userId The user ID who is specified as host in the meeting.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host can run this function, and userId should not be myself.
  */
 - (BOOL)makeHost:(NSUInteger)userId;
 
-/*!
- @brief Remove a user from the meeting.
- @param userId The ID of user to be removed from the meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning The method is available only for the host/co-host, and the host/co-host can not remove himself.
+/**
+ * @brief Removes a user from the meeting.
+ * @param userId The user ID to be removed from the meeting.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning The method is available only for the host or co-host, and the host or co-host cannot remove themselves.
  */
 - (BOOL)removeUser:(NSUInteger)userId;
 
-/*!
- @brief Get the ID of the current user in the meeting.
- @return The ID of the current user.
+/**
+ * @brief Gets the ID of the current user in the meeting.
+ * @return The ID of the current user.
  */
 - (NSUInteger)myselfUserID;
 
-/*!
- @brief Get the ID of the active user in the meeting.
- @return Active user ID.
+/**
+ * @brief Gets the ID of the active user in the meeting.
+ * @return The active user ID.
  */
 - (NSUInteger)activeUserID;
 
-/*!
- @brief Get the ID of user who is sharing in the meeting.
- @return The ID of user who is sharing in the meeting.
+/**
+ * @brief Gets the ID of the user who is sharing in the meeting.
+ * @return The ID of the user who is sharing in the meeting.
+ * @deprecated Use \link getViewableSharingUserList \endlink instead.
  */
-- (NSUInteger)activeShareUserID;
+- (NSUInteger)activeShareUserID DEPRECATED_MSG_ATTRIBUTE("Use getViewableSharingUserList instead");
 
-/*!
- @brief Judge if the two IDs from different sessions are of the same user.
- @param user1 One user ID in meeting
- @param user2 Another user ID in meeting
- @return YES means the same user.
+/**
+ * @brief Gets the IDs of users who are sharing.
+ * @return A NSArray of sourceID of all users who are sharing.
+ */
+- (NSArray<NSNumber *>* _Nullable)getViewableSharingUserList;
+
+/**
+ * @brief Gets the IDs of users who are sharing docs.
+ * @return An NSArray of user ID of all users who are sharing.
+ */
+- (NSArray<NSNumber *>* _Nullable)getViewableDocSharingUserList;
+
+/**
+ * @brief Gets the user's child list.
+ * @param userId The user ID for which to get the information.
+ * @return The sub-user list of user companion mode.
+ */
+- (NSArray *_Nullable)getCompanionChildList:(NSUInteger)userId;
+
+/**
+ * @brief Gets the information about the user's parent user.
+ * @param userId The user ID for which to get the information.
+ * @return If the function succeeds, it returns a MobileRTCMeetingUserInfo object. Otherwise, this function fails and returns nil.
+ */
+- (MobileRTCMeetingUserInfo *_Nullable)getCompanionParentUser:(NSUInteger)userId;
+
+/**
+ * @brief Judges if the two IDs from different sessions are of the same user.
+ * @param user1 One user ID in the meeting.
+ * @param user2 Another user ID in the meeting.
+ * @return YES if the same user. Otherwise, NO.
  */
 - (BOOL)isSameUser:(NSUInteger)user1 compareTo:(NSUInteger)user2;
 
-/*!
- @brief Query if the user is host.
- @param userID The ID of user.
- @return YES means that the user is the host, otherwise not.
+/**
+ * @brief Queries if the user is host.
+ * @param userID The user ID.
+ * @return YES if the user is the host. Otherwise, NO.
  */
 - (BOOL)isHostUser:(NSUInteger)userID;
 
-/*!
- @brief Query if the ID is the current user's.  
- @param userID The ID of user to be checked.
- @return TRUE means user himself. FALSE not.
+/**
+ * @brief Queries if the ID is the current user's.
+ * @param userID The user ID to be checked.
+ * @return YES if the user themselves. Otherwise, NO.
  */
 - (BOOL)isMyself:(NSUInteger)userID;
 
-/*!
- @brief Query if the user join meeting from H323.
- @param userID The ID of user.
- @return TRUE means user join meeting from H323. FALSE not.
+/**
+ * @brief Queries if the user joined the meeting from H.323.
+ * @param userID The user ID.
+ * @return YES if the user joined the meeting from H.323. Otherwise, NO.
  */
 - (BOOL)isH323User:(NSUInteger)userID;
 
-/*!
- @brief Raise hand of the current user.
- @return YES means that the method is called successfully, otherwise not.
+/**
+ * @brief Raises hand of the current user.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
  */
 - (BOOL)raiseMyHand;
-/*!
- @brief Put hands down of the current user.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/cohost can run the function when in meeting.
+/**
+ * @brief Puts hands down of the current user.
+ * @param userId The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function when in meeting.
  */
 - (BOOL)lowerHand:(NSUInteger)userId;
 
-/*!
- @brief Set to put all users' hands down.
- @param isWebinarAttendee YES indicates to lower all hands for webinar attendee. 
- @return YES means that the method is called successfully, otherwise not.
- @@warning Only meeting host/cohost can run the function when in meeting.
+/**
+ * @brief Puts all users' hands down.
+ * @param isWebinarAttendee YES to lower all hands for webinar attendee. Otherwise, NO.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function when in meeting.
  */
 - (BOOL)lowerAllHand:(BOOL)isWebinarAttendee;
 
 /**
- * @brief Query whether the current user is the original host.
- * @return TRUE means the current user is the original host. FALSE not.
-*/
+ * @brief Queries whether the current user is the original host.
+ * @return YES if the current user is the original host. Otherwise, NO.
+ */
 - (BOOL)isSelfOriginalHost;
 
-/*!
- @brief Query if the current user can claim to be a host
- @return YES means that the current user can claim to be a host, otherwise not.
+/**
+ * @brief Queries if the current user can claim to be a host.
+ * @return YES if the current user can claim to be a host. Otherwise, NO.
  */
 - (BOOL)canClaimhost;
 
-/*!
- @brief Reclaim the role of the host.
- @return YES means that the current user can claim to be a host, otherwise not.
+/**
+ * @brief Reclaims the role of the host.
+ * @return YES if the current user can claim to be a host. Otherwise, NO.
  */
 - (BOOL)reclaimHost;
 
-/*!
- @brief Set to claim to be a host by host key.
- @param hostKey Host key.
- @return YES means that the method is called successfully, otherwise not.
+/**
+ * @brief Claims to be a host by host key.
+ * @param hostKey The host key.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
  */
 - (BOOL)claimHostWithHostKey:(nonnull NSString*)hostKey;
 
-/*!
- @brief Assign a user as co-host in meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning The co-host cannot be assigned as co-host by himself. And the user should have the power to assign the role.
+/**
+ * @brief Assigns a user as co-host in the meeting.
+ * @param userID The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning The co-host cannot be assigned as co-host by themselves. And the user should have the power to assign the role.
  */
 - (BOOL)assignCohost:(NSUInteger)userID;
 
-/*!
- @brief Revoke co-host role of another user in meeting.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host can run the function.
+/**
+ * @brief Revokes co-host role of another user in the meeting.
+ * @param userID The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host can run the function.
  */
 - (BOOL)revokeCoHost:(NSUInteger)userID;
 
-/*!
- @brief Query if the user can be assigned as co-host in meeting.
- @return YES means that the method is called successfully, otherwise not.
+/**
+ * @brief Queries if the user can be assigned as co-host in the meeting.
+ * @param userID The user ID.
+ * @return YES if the user can be assigned as co-host. Otherwise, NO.
  */
 - (BOOL)canBeCoHost:(NSUInteger)userID;
 
-/*!
-@brief Determine whether the user has started a live stream.
-@return YES indicates that the specified user has started a raw live stream, otherwise NO.
+/**
+ * @brief Determines whether the user has started a live stream.
+ * @param userID The user ID.
+ * @return YES if the specified user has started a raw live stream. Otherwise, NO.
  */
 - (BOOL)isRawLiveStreaming:(NSUInteger)userID;
 
-/*!
-@brief Determine whether the user has raw live stream privilege.
-@return YES indicates that the specified user has raw live stream privilege, otherwise false NO.
+/**
+ * @brief Determines whether the user has raw live stream privilege.
+ * @param userID The user ID.
+ * @return YES if the specified user has raw live stream privilege. Otherwise, NO.
  */
 - (BOOL)hasRawLiveStreamPrivilege:(NSUInteger)userID;
+
+#pragma mark - robot -
+
+/**
+ * @brief Gets the information about the bot's authorized user.
+ * @param botUserId The user ID for which to get the information.
+ * @return If the function succeeds, it returns a MobileRTCMeetingUserInfo object. Otherwise, this function fails and returns nil.
+ */
+- (nullable MobileRTCMeetingUserInfo*)getBotAuthorizedUserInfoByUserID:(NSUInteger)botUserId;
+
+/**
+ * @brief Gets the authorizer's bot list.
+ * @param userId The user ID for which to get the information.
+ * @return The authorizer's robot list in the meeting.
+ */
+- (nullable NSArray <NSNumber *> *)getAuthorizedBotListByUserID:(NSUInteger)userId;
+
+/**
+ * @brief Assigns a user as co-host in the meeting and grants this user with privilege to manage related assets after the meeting.
+ * @param userId The user ID who is specified as co-host in the meeting.
+ * @param infoList The assets privilege information list.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @note The co-host cannot be assigned as co-host by themselves. And the user should have the power to assign the role.
+ */
+- (MobileRTCSDKError)assignCohost:(NSUInteger)userId  withAssetsPrivilege:(NSArray <MobileRTCGrantCoOwnerAssetsInfo*> * _Nonnull)infoList;
+
+/**
+ * @brief Assigns a user as the host in the meeting and grants this user with privilege to manage related assets after the meeting.
+ * @param userId The user ID who is specified as host in the meeting.
+ * @param infoList The assets privilege information list.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @note The host cannot be assigned as host by themselves. And the user should have the power to assign the role.
+ */
+- (MobileRTCSDKError)makeHost:(NSUInteger)userId  withAssetsPrivilege:(NSArray <MobileRTCGrantCoOwnerAssetsInfo*> * _Nonnull)infoList;
+
+/**
+ * @brief Queries if the user can be assigned as co-owner in the meeting. Co-owner can be granted with privilege to manage some assets after the meeting.
+ * @param userId The user ID who will be assigned as co-owner in the meeting.
+ * @return YES if the user can be assigned as co-owner. Otherwise, NO.
+ */
+- (BOOL)canBeCoOwner:(NSUInteger)userId;
+
+/**
+ * @brief Requests the avatar download for a specified user.
+ * @param userid The user's ID whose avatar the SDK requests.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @note Valid for both ZOOM style and user custom interface mode. Valid for both normal user and webinar attendee.
+ */
+- (MobileRTCSDKError)requestAvatarForUser:(NSUInteger)userid;
 
 @end

@@ -1,635 +1,664 @@
-//
-//  MobileRTCMeetingSettings.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 7/2/15.
-//  Copyright (c) 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingSettings.h
+ * @brief Configuration settings for meeting behavior and preferences.
+ */
 
 #import <Foundation/Foundation.h>
 
-/*!
- MobileRTCMeetingSettings
- @brief Set to modify the configurations of the meeting.
+@protocol MobileRTCMeetingSettingsDelegate;
+
+/**
+ * @class MobileRTCMeetingSettings
+ * @brief A class to modify the configurations of the meeting.
  */
 @interface MobileRTCMeetingSettings : NSObject
 
-/*!
- @brief Show/Hide meeting title in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides meeting title in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingTitleHidden;
 
-/*!
- @brief Show/Hide meeting password in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides meeting password in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingPasswordHidden;
 
-/*!
- @brief Show/Hide the END/LEAVE MEETING button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides the END/LEAVE MEETING button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingLeaveHidden;
 
-/*!
- @brief Show/Hide AUDIO button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides AUDIO button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingAudioHidden;
 
-/*!
- @brief Show/Hide VIDEO button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides VIDEO button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingVideoHidden;
 
-/*!
- @brief Show/Hide INVITE button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides INVITE button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingInviteHidden;
 
-/*!
- @brief Show/Hide INVITE link in the meeting info view.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides INVITE link in the meeting info view.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingInviteUrlHidden;
 
-/*!
- @brief Show/Hide Chat in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides Chat in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingChatHidden;
 
-/*!
- @brief Show/Hide PARTICIPANT button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides PARTICIPANT button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingParticipantHidden;
 
-/*!
- @brief Show/Hide SHARE button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides SHARE button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingShareHidden;
 
-/*!
- @brief Show/Hide MORE button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides MORE button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL meetingMoreHidden;
 
-/*!
- @brief Show/Hide the BAR ON THE TOP of view in the meeting.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides the bar on the top of view in the meeting.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL topBarHidden;
 
-/*!
- @brief Show/Hide BAR at the bottom of the view in the meeting.
- @warning The BAR at the bottom of the view is available on iPhone.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides bar at the bottom of the view in the meeting.
+ * @warning The bar at the bottom of the view is available on iPhone.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL bottomBarHidden;
 
-/*!
- @brief Show/Hide disconnect audio button
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides disconnect audio button.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL disconnectAudioHidden;
 
-/*!
- @brief Show/Hide record button
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides record button.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL recordButtonHidden;
 
-/*!
- @brief Change thumbnail video layout while viewing a share in the meeting.
- @warning If you set it to YES, the video of attendees will be placed at right of the Landscape(the device screen is oriented horizontally) or the bottom of Portrait(the device screen is oriented vertically) apart from the shared content, which means the video won't cover the content; if you set to NO, it will show only the video of active speaker and the video will be placed in the bottom right of the screen.
- @warning The function only for Zoom UI.
+/**
+ * @brief YES to change thumbnail video layout while viewing a share in the meeting. Otherwise, NO.
+ * @warning If you set it to YES, the video of attendees will be placed at the right of the landscape (the device screen is oriented horizontally) or the bottom of portrait (the device screen is oriented vertically) apart from the shared content, which means the video will not cover the content. If you set it to NO, it will show only the video of active speaker and the video will be placed in the bottom right of the screen.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL thumbnailInShare;
 
-/*!
- @brief Show/Hide LEAVE MEETING item for the host in the pop up view after click the end/leave meeting button in the meeting bar.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides LEAVE MEETING item for the host in the pop up view after clicking the end/leave meeting button in the meeting bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL hostLeaveHidden;
 
-/*!
- @brief Show/Hide the hint message in the meeting.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides the hint message in the meeting. The hint message is on the top bar.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL hintHidden;
 
-/*!
- @brief Show/Hide the waiting HUD while starting/joining a meeting.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides the tips message in the meeting. The tips message is on the bottom of the screen.
+ * @warning This function is only available in Zoom UI mode.
+ */
+@property (assign, nonatomic) BOOL tipsHidden;
+
+/**
+ * @brief Shows or hides the waiting HUD while starting or joining a meeting.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL waitingHUDHidden;
 
-/*!
- @brief Show/Hide "Call in Room System" item in Invite h.323/SIP Room System.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides "Call in Room System" item in Invite H.323/SIP Room System.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL callinRoomSystemHidden;
 
-/*!
- @brief Show/Hide "Call out Room System" item in Invite h.323/SIP Room System.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides "Call out Room System" item in Invite H.323/SIP Room System.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL calloutRoomSystemHidden;
 
-/*!
- @brief Show/Hide "Enter Host Key to Claim Host" item in Menu More.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides "Enter Host Key to Claim Host" item in Menu More.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL claimHostWithHostKeyHidden;
 
-/*!
- @brief Show/Hide CLOSE CAPTION in a meeting.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides CLOSED CAPTION in a meeting.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL closeCaptionHidden;
 
-/*!
- @brief Show/Hide Q&A button in webinar meeting.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides Q&A button in webinar meeting.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL qaButtonHidden;
 
-/*!
- @brief Show/Hide "Promote to Panelist" in webinar meeting.
- @warning Only host/co-host can see the option in webinar meeting‘s participants.
- @warning The function only for Zoom UI.
+/**
+ * @brief Shows or hides "Promote to Panelist" in webinar meeting.
+ * @warning Only host or co-host can see the option in webinar meeting's participants.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL promoteToPanelistHidden;
 
-/*!
-@brief Show/Hide "Change to Attendee" in webinar meeting.
-@warning Only host/co-host can see the option in webinar meeting‘s participants.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Shows or hides "Change to Attendee" in webinar meeting.
+ * @warning Only host or co-host can see the option in webinar meeting's participants.
+ * @warning This function is only available in Zoom UI mode.
+ */
 @property (assign, nonatomic) BOOL changeToAttendeeHidden;
 
-/*!
- @brief Enable/Disable Proximity Sensors Monitoring in a meeting. 
- @warning The function only for Zoom UI.
+/**
+ * @brief Enables or disables Proximity Sensors Monitoring in a meeting.
+ * @warning This function is only available in Zoom UI mode.
  */
 @property (assign, nonatomic) BOOL proximityMonitoringDisable;
 
-/*!
- @brief hide feedback button on cloud whiteboard.
+/**
+ * @brief Enables or disables hiding the recover meeting dialog in Zoom UI mode.
+ * @warning This function is only available in Zoom UI mode.
+ */
+@property (assign, nonatomic) BOOL hideRecoverMeetingDialog;
+
+/**
+ * @brief Enables or disables hiding the stop live stream dialog in Zoom UI mode.
+ * @warning This function is only available in Zoom UI mode.
+ */
+@property (assign, nonatomic) BOOL hideStopLiveStreamDialog;
+
+/**
+ * @brief Hides feedback button on cloud whiteboard.
+ * @deprecated Use \link hideFeedbackButtonOnCloudWhiteboard: \endlink in MeetingService instead.
  */
 @property (assign, nonatomic) BOOL hideFeedbackButtonOnCloudWhiteboard DEPRECATED_MSG_ATTRIBUTE("Use hideFeedbackButtonOnCloudWhiteboard: in MeetingService instead");
 
-/*!
- @brief hide share button on cloud whiteboard.
+/**
+ * @brief Hides share button on cloud whiteboard.
+ * @deprecated Use \link hideShareButtonOnCloudWhiteboard: \endlink in MeetingService instead.
  */
 @property (assign, nonatomic) BOOL hideShareButtonOnCloudWhiteboard DEPRECATED_MSG_ATTRIBUTE("Use hideShareButtonOnCloudWhiteboard: in MeetingService instead");
 
-/*!
- @brief About button’s visibility on the cloud whiteboard. Default is displaying.
+/**
+ * @brief About button's visibility on the cloud whiteboard. The default is displaying.
+ * @deprecated Use \link hideAboutButtonOnCloudWhiteboard: \endlink in MeetingService instead.
  */
 @property (assign, nonatomic) BOOL hideAboutButtonOnCloudWhiteboard DEPRECATED_MSG_ATTRIBUTE("Use hideAboutButtonOnCloudWhiteboard: in MeetingService instead");
 
-/*!
- @brief Query if the user joins meeting with audio device. 
- @return YES means the audio device is automatically connected, otherwise not. 
+/**
+ * @brief Queries if the user joins meeting with audio device.
+ * @return YES if the audio device is automatically connected. Otherwise, NO.
  */
 - (BOOL)autoConnectInternetAudio;
 
-/*!
- @brief Set to auto-connect the audio when user joins meeting. 
- @param connected The option value.
+/**
+ * @brief Sets to auto-connect the audio when the user joins the meeting.
+ * @param connected The option value.
  */
 - (void)setAutoConnectInternetAudio:(BOOL)connected;
 
-/*!
- @brief Query if user's audio is muted when he joins the meeting. 
- @return YES means muted, otherwise not.
+/**
+ * @brief Queries if the user's audio is muted when they join the meeting.
+ * @return YES if muted. Otherwise, NO.
  */
 - (BOOL)muteAudioWhenJoinMeeting;
 
-/*!
- @brief Set to mute user's audio when he joins the meeting. 
- @param muted YES means to mute the audio, otherwise not.
+/**
+ * @brief Sets to mute the user's audio when they join the meeting.
+ * @param muted YES to mute the audio. Otherwise, NO.
  */
 - (void)setMuteAudioWhenJoinMeeting:(BOOL)muted;
 
-/*!
- @brief Query if user's video is muted when he joins the meeting. 
- @return YES means muted, otherwise not.
+/**
+ * @brief Queries if the user's video is muted when they join the meeting.
+ * @return YES if muted. Otherwise, NO.
  */
 - (BOOL)muteVideoWhenJoinMeeting;
 
-/*!
- @brief Set to mute user's video when he joins the meeting. 
- @param muted YES means to mute the video, otherwise not.
+/**
+ * @brief Sets to mute the user's video when they join the meeting.
+ * @param muted YES to mute the video. Otherwise, NO.
  */
 - (void)setMuteVideoWhenJoinMeeting:(BOOL)muted;
 
-/*!
- @brief Query Touch up my appearance enable or not
- @return muted YES means enable, otherwise not.
+/**
+ * @brief Queries if Touch up my appearance is enabled.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)faceBeautyEnabled;
 
-/*!
- @brief Set Touch up my appearance enable or not.
- @param enable YES means successful, otherwise not.
+/**
+ * @brief Enables or disables Touch up my appearance.
+ * @param enable YES to enable. Otherwise, NO.
  */
 - (void)setFaceBeautyEnabled:(BOOL)enable;
 
-/*!
- @brief Determine if mirror effect is enabled.
- @return YES means enabled, otherwise not.
+/**
+ * @brief Determines if mirror effect is enabled.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)isMirrorEffectEnabled;
 
-/*!
- @brief Set to enable/disable mirror effect.
- @param enable YES means enabled, No disabled
+/**
+ * @brief Enables or disables mirror effect.
+ * @param enable YES to enable. Otherwise, NO to disable.
  */
 - (void)enableMirrorEffect:(BOOL)enable;
 
-/*!
- @brief Query if driving mode is disabled.
- @return YES means muted, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries if driving mode is disabled.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)driveModeDisabled;
 
-/*!
- @brief Set to disable the Driving mode in the meeting.
- @param disabled YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets to disable the Driving mode in the meeting.
+ * @param disabled YES to disable. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)disableDriveMode:(BOOL)disabled;
 
-/*!
- @brief Query if Gallery View is disabled.
- @return YES means muted, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries if Gallery View is disabled.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)galleryViewDisabled;
 
-/*!
- @brief Set to disable the Gallery View in the meeting.
- @param disabled YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets to disable the Gallery View in the meeting.
+ * @param disabled YES to disable. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)disableGalleryView:(BOOL)disabled;
 
-/*!
- @brief Enable or disable the new Zoom Whiteboard feature (different from Classic Whiteboard). This feature enabled by default.
- @param disabled YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Enables or disables the new Zoom Whiteboard feature (different from Classic Whiteboard). This feature is enabled by default.
+ * @param disabled YES to disable. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
+ * @deprecated Use \link disableCloudWhiteboard: \endlink in MeetingService instead.
  */
 - (void)disableCloudWhiteboard:(BOOL)disabled DEPRECATED_MSG_ATTRIBUTE("Use disableCloudWhiteboard: in MeetingService instead");
 
-/*!
- @brief Query if it is disabled to call in.
- @return YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries if it is disabled to call in.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)callInDisabled;
 
-/*!
- @brief Set to disable the incoming calls.
- @param disabled The option value.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets to disable the incoming calls.
+ * @param disabled The option value.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)disableCallIn:(BOOL)disabled;
 
-/*!
- @brief Query if it is disabled to call out.
- @return YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries if it is disabled to call out.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)callOutDisabled;
 
-/*!
- @brief Set to disable the outgoing calls. 
- @param disabled The option value.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets to disable the outgoing calls.
+ * @param disabled The option value.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)disableCallOut:(BOOL)disabled;
 
-/*!
- @brief Query if it is disabled to Minimize Meeting.
- @return YES means disabled, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries if it is disabled to Minimize Meeting.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)minimizeMeetingDisabled;
 
-/*!
- @brief Set to disable the Minimize Meeting.
- @param disabled The option value.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets to disable the Minimize Meeting.
+ * @param disabled The option value.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)disableMinimizeMeeting:(BOOL)disabled;
 
-/*!
- @brief Query if it is disabled free meeting upgrade tips.
- @return YES means disabled, otherwise not.
+/**
+ * @brief Queries if it is disabled free meeting upgrade tips.
+ * @return YES if disabled. Otherwise, NO.
  */
 - (BOOL)freeMeetingUpgradeTipsDisabled;
 
-/*!
-@brief Set to disable free meeting upgrade tips.
-@param disabled The option value.
-*/
+/**
+ * @brief Sets to disable free meeting upgrade tips.
+ * @param disabled The option value.
+ */
 - (void)disableFreeMeetingUpgradeTips:(BOOL)disabled;
 
-/*!
- @brief Query Meeting setting of speaker off when present meeting.
- @return YES means speaker off, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries meeting setting of speaker off when present meeting.
+ * @return YES if speaker is off. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)speakerOffWhenInMeeting;
 
-/*!
- @brief Set speaker off.  Default value is No, Need set to NO when not used.
- @param speakerOff means speaker off, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Sets speaker off. The default value is NO. Set to NO when not used.
+ * @param speakerOff YES to set speaker off. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)setSpeakerOffWhenInMeeting:(BOOL)speakerOff;
 
-/*!
- @brief Query show meeting elapse time.
- @return YES means show meeting elapse time, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Queries show meeting elapse time.
+ * @return YES if show meeting elapse time. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (BOOL)showMyMeetingElapseTime;
 
-/*!
- @brief Enable show meeting elapse time.
- @param enable YES means show meeting elapse time, otherwise not.
- @warning The function only for Zoom UI.
+/**
+ * @brief Enables or disables showing meeting elapse time.
+ * @param enable YES to show meeting elapse time. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
  */
 - (void)enableShowMyMeetingElapseTime:(BOOL)enable;
 
-/*!
-@brief Query mic original input enable or not.
-@return YES means mic original input enable, otherwise not.
-*/
+/**
+ * @brief Queries if mic original input is enabled.
+ * @return YES if mic original input is enabled. Otherwise, NO.
+ */
 - (BOOL)micOriginalInputEnabled;
 
-/*!
- @brief Enable mic original input.
- @param enable YES means enable mic original input, otherwise not.
+/**
+ * @brief Enables or disables mic original input.
+ * @param enable YES to enable mic original input. Otherwise, NO.
  */
 - (void)enableMicOriginalInput:(BOOL)enable;
 
-/*!
-@brief Query reactions on MeetingUI is hidden or not.
-@warning YES means reactions on MeetingUI is hidden, otherwise not.
-*/
+/**
+ * @brief Queries if reactions on MeetingUI is hidden.
+ * @return YES if reactions on MeetingUI is hidden. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (BOOL)reactionsOnMeetingUIHidden;
 
-/*!
-@brief Set the visibility of reaction on meeting UI. Default is displaying.
-@param hidden YES means hide reaction emotion.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Sets the visibility of reaction on meeting UI. The default is displaying.
+ * @param hidden YES to hide reaction emotion. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (void)hideReactionsOnMeetingUI:(BOOL)hidden;
 
-/*!
-@brief Query if it is disabled to show video preview when join meeting.
-@return YES means disabled, otherwise not.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Queries if it is disabled to show video preview when joining meeting.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning If showVideoPreviewWhenJoinMeeting is enabled, customized UI mode must implements the callback of onJoinMeetingInfoRequired:.
+ */
 - (BOOL)showVideoPreviewWhenJoinMeetingDisabled;
 
-/*!
-@brief Set to disable show video preview when join meeting.
-@param disabled The option value.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Sets to disable show video preview when joining meeting.
+ * @param disabled The option value.
+ * @warning If showVideoPreviewWhenJoinMeeting is enabled, customized UI mode must implements the callback of onJoinMeetingInfoRequired:.
+ */
 - (void)disableShowVideoPreviewWhenJoinMeeting:(BOOL)disabled;
 
-/*!
-@brief Query if it is disabled for virtual background.
-@return YES means disabled, otherwise not.
-*/
+/**
+ * @brief Queries if it is disabled for virtual background.
+ * @return YES if disabled. Otherwise, NO.
+ */
 - (BOOL)virtualBackgroundDisabled;
 
-/*!
-@brief Set to disable virtual background.
-@param disabled The option value.
-*/
+/**
+ * @brief Sets to disable virtual background.
+ * @param disabled The option value.
+ */
 - (void)disableVirtualBackground:(BOOL)disabled;
 
-/*!
-@brief pre populate webinar registration info.
-@param email registration email address.
-@param username registration username.
-*/
+/**
+ * @brief Pre-populates webinar registration info.
+ * @param email The registration email address.
+ * @param username The registration username.
+ */
 - (void)prePopulateWebinarRegistrationInfo:(nonnull NSString *)email username:(nonnull NSString *)username;
 
-/*!
-@brief Set the webinar register information dialog to hide or display.
-@param hide Yes means hide the dialog. Otherwise, do not hide the dialog.
-*/
+/**
+ * @brief Sets the webinar register information dialog to hide or display.
+ * @param hide YES to hide the dialog. Otherwise, NO.
+ */
 - (void)setHideRegisterWebinarInfoWindow:(BOOL)hide;
 
-/*!
-@brief Get the webinar register information dialog to hide or display.
-@return boolean value of the setting value.
-*/
+/**
+ * @brief Gets whether the webinar register information dialog is hidden or displayed.
+ * @return YES if hidden. Otherwise, NO.
+ */
 - (BOOL)hideRegisterWebinarInfoWindow;
 
-/*!
-@brief Set the webinar username input dialog to hide or display. if hide webinar user name input dialog, should handle
-{@link - (void)onWebinarNeedInputScreenName:(MobileRTCWebinarInputScreenNameHandler*_Nullable)handler;}
-{@link  MobileRTCWebinarInputScreenNameHandler#- (MobileRTCSDKError)inputName:(NSString *_Nonnull)name;}
-@param hide true  means hide the dialog. Otherwise, do not hide the dialog.
-*/
+/**
+ * @brief Sets the webinar username input dialog to hide or display. If hide webinar user name input dialog, should handle \link MobileRTCMeetingServiceDelegate::onWebinarNeedInputScreenName: \endlink. \link MobileRTCWebinarInputScreenNameHandler:: inputName: \endlink.
+ * @param hide YES to hide the dialog. Otherwise, NO.
+ */
 - (void)setHideWebinarNameInputWindow:(BOOL)hide;
 
-/*!
-@brief Get the webinar username input dialog to hide or display.
-@return value of the setting value.
-*/
+/**
+ * @brief Gets whether the webinar username input dialog is hidden or displayed.
+ * @return YES if hidden. Otherwise, NO.
+ */
 - (BOOL)isHideWebinarNameInputWindow;
 
-/*!
-@brief Set to disable confidential watermark.
-@param disable The option value.
-@return YES means confidential watermark is disable, otherwise not.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Sets to disable confidential watermark.
+ * @param disable The option value.
+ * @return YES if confidential watermark is disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (BOOL)disableConfidentialWatermark:(BOOL)disable;
 
-/*!
-@brief Query if it is disabled for copy meeting url.
-@return YES means disabled, otherwise not.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Queries if it is disabled for copy meeting URL.
+ * @return YES if disabled. Otherwise, NO.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (BOOL)copyMeetingUrlDisabled;
 
-/*!
-@brief Set to disable copy meeting url in the meeting info view.
-@param disabled The option value.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Sets to disable copy meeting URL in the meeting info view.
+ * @param disabled The option value.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (void)disableCopyMeetingUrl:(BOOL)disabled;
 
-/*!
-@brief Set emoji reaction skin tone.
-@param skinTone The reaction skin tone.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Sets emoji reaction skin tone.
+ * @param skinTone The reaction skin tone.
+ * @return If the function succeeds, it will return MobileRTCMeetError_Success. Otherwise the function fails.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (MobileRTCMeetError)setReactionSkinTone:(MobileRTCEmojiReactionSkinTone)skinTone;
 
-/*!
-@brief Get reaction skin tone.
-@return skinTone for emoji reaction.
-@warning The function only for Zoom UI.
-*/
+/**
+ * @brief Gets reaction skin tone.
+ * @return The skin tone for emoji reaction.
+ * @warning This function is only available in Zoom UI mode.
+ */
 - (MobileRTCEmojiReactionSkinTone)reactionSkinTone;
 
-/*!
-@brief Disable the action of clear WebView's cache.
-@param disabled Specify to disable the clear action or not.
-*/
+/**
+ * @brief Disables the action of clear WebView's cache.
+ * @param disabled YES to disable the clear action. Otherwise, NO.
+ */
 - (void)disableClearWebKitCache:(BOOL)disabled;
 
-/*!
-@brief Query if the action of clear WebView's cache be disabled.
-@return Action of clear WebView's cache is disabled or not.
-*/
+/**
+ * @brief Queries if the action of clear WebView's cache is disabled.
+ * @return YES if the action of clear WebView's cache is disabled. Otherwise, NO.
+ */
 - (BOOL)isDisabledClearWebKitCache;
 
-/*!
-@brief Query if the option HIDE NON-VIDEO PARTICIPANTS is enabled.
-@return YES means enabled. NO not.
-*/
+/**
+ * @brief Queries if the option HIDE NON-VIDEO PARTICIPANTS is enabled.
+ * @return YES if enabled. Otherwise, NO.
+ */
 - (BOOL)isHideNoVideoUsersEnabled;
 
-/*!
-@brief Set whether to enable the option HIDE NON-VIDEO PARTICIPANTS.
-@param enabled YES means enabled. NO not.
-*/
+/**
+ * @brief Sets whether to enable the option HIDE NON-VIDEO PARTICIPANTS.
+ * @param enabled YES to enable. Otherwise, NO.
+ */
 - (void)setHideNoVideoUsersEnabled:(BOOL)enabled;
 
-/*
-@brief Enable or disable to hide the userself's view. isHidden TRUE indicates to enable to hide the userself's view.
-*/
+/**
+ * @brief Enables or disables to hide the user's own view. isHidden YES indicates to enable to hide the user's own view.
+ * @param isHidden YES to enable to hide the user's own view. Otherwise, NO.
+ */
 - (void)enableHideSelfView:(BOOL)isHidden;
 
-/*!
- @brief Get the flag to enable/disable to hide userself's view.
-*/
+/**
+ * @brief Gets the flag to enable or disable to hide the user's own view.
+ * @return YES if hide self view. Otherwise, NO.
+ */
 - (BOOL)isHideSelfViewEnabled;
 
-/*!
- @brief Set the visibility of request local recording privilege dialog when attendee request local recording privilege. Default is displaying.
- @param bHide YES indicates to display the tab. No not.
-*/
+/**
+ * @brief Sets the visibility of request local recording privilege dialog when attendee requests local recording privilege. Default is displaying.
+ * @param bHide YES to hide the dialog. Otherwise, NO.
+ */
 - (void)hideRequestRecordPrivilegeDialog:(BOOL)bHide;
 
-/*!
- @brief Get the flag of auto enter Picture-in-Picture Mode for video calls.
+/**
+ * @brief Gets the flag of auto enter Picture-in-Picture Mode for video calls.
+ * @return YES if auto enter Picture-in-Picture Mode. Otherwise, NO.
  */
 - (BOOL)videoCallPictureInPictureEnabled;
 
-/*!
- @brief Set the flag of auto enter Picture-in-Picture Mode for video calls.
- @param enable YES to follow Zoom VoIP Meeting Picture-in-Picture logic.
- @warning only works in ZoomUI.
- */
-- (void)enableVideoCallPictureInPicture:(BOOL)enable;
-
-/*!
- @brief Set whether to close the current sharing of another user without prompt and directly beginning a new sharing content by the closer. Default value: FALSE(prompt).
- @param enable YES indicates no prompt. FALSE not.
+/**
+ * @brief Sets whether to close the current sharing of another user without prompt and directly beginning a new sharing content by the closer. Default value: NO (prompt).
+ * @param enable YES to indicate no prompt. Otherwise, NO.
  */
 - (void)enableGrabShareWithoutReminder:(BOOL)enable;
 
-/*!
- @brief Set the meeting input user info dialog to hide or display.
- @param hide YES means hide the dialog. Otherwise, do not hide the dialog.
+/**
+ * @brief Sets the meeting input user info dialog to hide or display.
+ * @param hide YES to hide the dialog. Otherwise, NO.
  */
 - (void)setHideMeetingInputUserInfoWindow:(BOOL)hide;
 
 /**
- * @brief Get the meeting input user info dialog to hide or display.
- * @return The value of the setting value.
+ * @brief Gets whether the meeting input user info dialog is hidden or displayed.
+ * @return YES if hidden. Otherwise, NO.
  */
 - (BOOL)isHideMeetingInputUserInfoWindow;
 
-/*!
- @brief Call this method to enable or disable the auto adjust input of mic.
- @param enable YES to enable auto adjust input or false to disable it.
- */
-- (void)enableAutoAdjustMic:(BOOL)enable DEPRECATED_MSG_ATTRIBUTE("Not maintain anymore");
-
-/*!
- @brief Determine whether the original input of the microphone is enabled.
- @return YES if auto adjust input  is enabled, otherwise false.
- */
-- (BOOL)isAutoAdjustMicEnable DEPRECATED_MSG_ATTRIBUTE("Not maintain anymore");
-
-/*!
- @brief Query if this device supports CenterStage Mode.
- @return YES means supported, otherwise not.
- @warning only iPad of os version above 14.5 can using this feature.
+/**
+ * @brief Queries if this device supports CenterStage Mode.
+ * @return YES if supported. Otherwise, NO.
+ * @warning Only iPad of OS version above 14.5 can use this feature.
  */
 - (BOOL)isCenterStageModeSupported;
 
-/*!
- @brief Enable or disable CenterStage Mode. This is disable by default.
- @param enable YES means enabled, otherwise not.
- @return YES means supported, otherwise not.
+/**
+ * @brief Enables or disables CenterStage Mode. This is disabled by default.
+ * @param enable YES to enable. Otherwise, NO.
+ * @return YES if the function succeeds. Otherwise, NO.
  */
 - (BOOL)enableCenterStageMode:(BOOL)enable;
 
-/*!
- @brief Query if CenterStage Mode is enable by MobileRTC.
- @return YES indicates enable. Otherwise not.
+/**
+ * @brief Queries if CenterStage Mode is enabled by MobileRTC.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)isEnabledCenterStageMode;
 /**
- * @brief Enable echo cancellation.
- * @param enable true means enabled, false disabled.
- * @return error code {@link MobileRTCSDKError}
+ * @brief Enables or disables echo cancellation.
+ * @param enable YES to enable. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)enableEchoCancellation:(BOOL)enable;
 
 /**
- * @brief Determine if echo cancellation is enabled or not.
- * @return true means supported, otherwise not.
+ * @brief Determines if echo cancellation is enabled.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)isEchoCancellationOn;
 
 /**
- * @brief Determine if the meeting supports echo cancellation.
- * @return true means supported, otherwise not. Only using this feature when enabled original sound called: "enableMicOriginalInput:".
+ * @brief Determines if the meeting supports echo cancellation.
+ * @return YES if supported. Otherwise, NO. Only use this feature when enabled original sound called: "enableMicOriginalInput:".
  */
 - (BOOL)isSupportEchoCancellation;
 
 
 /**
- * @brief Set the confirm start archive dialog to hide or display.
- * @param hide true  means hide the dialog. Otherwise, do not hide the dialog.
- * @warning if hide confirm start archive dialog when join meeting, should handle the 'MobileRTCArchiveConfrimHandle'.
+ * @brief Sets the confirm start archive dialog to hide or display.
+ * @param hide YES to hide the dialog. Otherwise, NO.
+ * @warning If hide confirm start archive dialog when joining meeting, should handle the 'MobileRTCArchiveConfrimHandle'.
  */
 - (void)setHideConfirmStartArchiveDialog:(BOOL)hide;
 
 /**
- * @brief Get the confirm start archive dialog whether hide or display.
- * @return true means hide, false means display.
+ * @brief Gets whether the confirm start archive dialog is hidden or displayed.
+ * @return YES if hidden. Otherwise, NO.
  */
 - (BOOL)isHideConfirmStartArchiveDialog;
 
-/*!
- @brief Whether to cancel the bandwidth limit, If YES is set, the network bandwidth is no longer limited, and better audio and video quality can be obtained. Bandwidth is not limited by default. If it is a wifi network, the bandwidth is not limited, and this setting is invalid.
- @param enable a boolean flag to set up the behavoir.
+/**
+ * @brief Enables or disables canceling the bandwidth limit. If YES is set, the network bandwidth is no longer limited, and better audio and video quality can be obtained. Bandwidth is not limited by default. If it is a WiFi network, the bandwidth is not limited, and this setting is invalid.
+ * @param enable YES to enable. Otherwise, NO.
  */
 - (void)enable5GHighBandWidth:(BOOL)enable;
+
+/**
+ * @brief Enables or disables zoom docs features in custom UI. This can only take effect when \link MobileRTCSDKInitContext::enableCustomizeMeetingUI \endlink is true. This is disabled by default. When you enable this feature, you need to handle the \link MobileRTCMeetingServiceDelegate::onDocsStatusChanged: \endlink, and subscribe the docs share with the \link MobileRTCMeetingService::showDocByParentViewCtroller: \endlink.
+ * @param enable YES to enable. Otherwise, NO.
+ */
+- (void)enableZoomDocs:(BOOL)enable;
+
+/**
+ * @brief Enables or disables automatic dimming of video when sharing content flashes. When enabled, the video will be automatically dimmed when the shared content contains flashing elements.
+ * @param enable YES to enable automatic dimming. Otherwise, NO.
+ */
+- (void)enableShareContentFlashDetection:(BOOL)enable;
+
+/**
+ * @brief Queries whether automatic dimming of video when sharing content flashes is enabled.
+ * @return YES if the feature is enabled. Otherwise, NO.
+ */
+- (BOOL)isShareContentFlashDetectionEnabled;
+
+/**
+ * @brief Set the delegate to receive meeting settings events, including 3D avatar settings events.
+ * @param delegate The delegate object.
+ */
+- (void)setDelegate:(id<MobileRTCMeetingSettingsDelegate> _Nullable)delegate;
 
 @end

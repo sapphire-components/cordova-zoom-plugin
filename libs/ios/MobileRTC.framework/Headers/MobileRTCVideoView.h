@@ -1,95 +1,99 @@
-//
-//  MobileRTCVideoView.h
-//  MobileRTC
-//
-//  Created by Robust on 2017/11/15.
-//  Copyright © 2019年 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCVideoView.h
+ * @brief Video view component for displaying and managing video content in meetings.
+ */
 
 #import <UIKit/UIKit.h>
 
-/*!
- @brief MobileRTCVideoAspect An Enum which provide video aspect.
+/**
+ * @brief Enumeration of the video aspect ratio.
  */
 typedef enum {
-    ///Original
+    /** Display the captured data without any cropping or scaling. */
     MobileRTCVideoAspect_Original       = 0,
-    ///Full Filled
+    /** Stretch both horizontally and vertically to fill the display (may cause distortion). */
     MobileRTCVideoAspect_Full_Filled    = 1,
-    ///Letter Box
+    /** Add black bars to maintain aspect ratio (e.g., 16:9 content on a 4:3 display or vice versa). */
     MobileRTCVideoAspect_LetterBox  = 2,
-    ///Pan And Scan
+    /** Crop the sides or top/bottom to fill the screen (e.g., cut sides for 16:9 on 4:3, or top/bottom for 4:3 on 16:9). */
     MobileRTCVideoAspect_PanAndScan = 3,
 }MobileRTCVideoAspect;
 
-/*!
- MobileRTCVideoView
- @brief MobileRTCVideoView is designed for Render Attendee Video.
+/**
+ * @class MobileRTCVideoView
+ * @brief A view designed for rendering attendee video.
  */
 @interface MobileRTCVideoView : UIView
 
-/*!
- @brief Designated for get rendering user's ID.
- @return userid that rendering.
+/**
+ * @brief Gets the rendering user's ID.
+ * @return The user ID that is rendering.
  */
 - (NSInteger)getUserID;
 
-/*!
- @brief Designated for Render Attendee Video.
- @param userID user's video will be shown up.
+/**
+ * @brief Renders attendee video.
+ * @param userID The user's video to display.
+ * @return YES if the function succeeds. Otherwise, NO.
  */
 - (BOOL)showAttendeeVideoWithUserID:(NSUInteger)userID;
 
-/*!
- @brief Designated for Stop Render.
+/**
+ * @brief Stops rendering.
  */
 - (void)stopAttendeeVideo;
 
-/*!
- @brief Designated for changing video aspect according to customer's requirement.
+/**
+ * @brief Sets the video aspect according to customer requirements.
+ * @param aspect The video aspect.
  */
 - (void)setVideoAspect:(MobileRTCVideoAspect)aspect;
 
 @end
 
-/*!
- MobileRTCPreviewVideoView
- @brief MobileRTCPreviewVideoView is designed for Preview Self Video.
- @warning App need reponse to onSinkMeetingPreviewStopped, SDK handle start & stop Preview.
+/**
+ * @class MobileRTCPreviewVideoView
+ * @brief A view designed for previewing self video.
+ * @warning App needs to respond to onSinkMeetingPreviewStopped. SDK handles start and stop preview.
  */
 @interface MobileRTCPreviewVideoView : MobileRTCVideoView
-
 @end
 
-/*!
- MobileRTCActiveVideoView
- @brief MobileRTCActiveVideoView is designed for Render Active Video.
+/**
+ * @class MobileRTCActiveVideoView
+ * @brief A view designed for rendering active video.
  */
 @interface MobileRTCActiveVideoView : MobileRTCVideoView
-
 @end
 
-/*!
- MobileRTCActiveShareView
- @brief MobileRTCActiveShareView is designed for Render Share Content.
+/**
+ * @class MobileRTCActiveShareView
+ * @brief A view designed for rendering share content.
  */
 @interface MobileRTCActiveShareView : MobileRTCVideoView
 
-/*!
- @brief Designated for Render Share Content.
- @param userID user's shared content will be shown up.
+/**
+ * @brief Renders share content.
+ * @param shareSourceID The user's shared content to display.
+ * @return YES if the function succeeds. Otherwise, NO.
  */
-- (void)showActiveShareWithUserID:(NSUInteger)userID;
+- (BOOL)showActiveShareWithShareSourceID:(NSUInteger)shareSourceID;
 
-/*!
- @brief Designated for Stop Render Share Content.
+/**
+ * @brief Stops rendering share content.
  */
 - (void)stopActiveShare;
 
-/*!
- @brief Designated for Render Share Content Scale Change.
- @param userID user's shared content scale change.
+/**
+ * @brief Changes the share content scale.
+ * @param shareSourceID The user's shared content scale to change.
  */
-- (void)changeShareScaleWithUserID:(NSUInteger)userID;
+- (void)changeShareScaleWithShareSourceID:(NSUInteger)shareSourceID;
+
+/**
+ * @brief Gets the share source ID.
+ * @return If the function succeeds, it returns the share source ID.
+ */
+- (NSUInteger)getShareSourceID;
 
 @end

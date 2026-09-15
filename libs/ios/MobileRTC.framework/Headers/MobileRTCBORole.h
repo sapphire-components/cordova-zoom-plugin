@@ -1,133 +1,178 @@
-//
-//  MobileRTCBORole.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2020/2/11.
-//  Copyright © 2020 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCBORole.h
+ * @brief Breakout room role management and user status definitions.
+ * The AI Companion brand has been retired. AI-powered features are now more deeply integrated throughout Zoom Workplace. Existing APIs and SDKs that reference AI Companion will continue to function as before to ensure backward compatibility.
+ */
 
 #import <Foundation/Foundation.h>
 
+/**
+ * @brief Enumeration of breakout meeting user status.
+ */
 typedef enum : NSUInteger {
-    BOUserStatusUnknow      = 0,//the breakout meeting status is unknow.
-    BOUserStatusUnassigned  = 1, //User is in main conference, not assigned to BO
-    BOUserStatusNotJoin     = 2, //User is assigned to BO, but not join
-    BOUserStatusInBO        = 3, //User is already in BO
+    /** The breakout meeting status is unknown. */
+    BOUserStatusUnknown      = 0,
+    /** The user is unassigned to any breakout meeting. */
+    BOUserStatusUnassigned  = 1,
+    /** The user is assigned but has not joined the breakout meeting. */
+    BOUserStatusNotJoin     = 2,
+    /** The user is currently in the breakout meeting. */
+    BOUserStatusInBO        = 3,
 } MobileRTCBOUserStatus;
 
+/**
+ * @class MobileRTCBOUser
+ * @brief A class that represents a user in a breakout room.
+ */
 @interface MobileRTCBOUser : NSObject
-/*!
-@brief get bo meeting user id.
-*/
+
+/**
+ * @brief Gets the breakout meeting user ID.
+ * @return The breakout meeting user ID.
+ */
 - (NSString * _Nullable)getUserId;
 
-/*!
-@brief get bo meeting user name.
-*/
+/**
+ * @brief Gets the breakout meeting user name.
+ * @return The breakout meeting user name.
+ */
 - (NSString * _Nullable)getUserName;
 
 @end
 
+/**
+ * @class MobileRTCBOMeeting
+ * @brief A class that provides functions for breakout meetings.
+ */
 @interface MobileRTCBOMeeting : NSObject
-/*!
-@brief get bo meeting id.
-*/
+
+/**
+ * @brief Gets the breakout meeting ID.
+ * @return The breakout meeting ID.
+ */
 - (NSString * _Nullable)getBOMeetingId;
 
-/*!
-@brief get bo meeting name.
-*/
+/**
+ * @brief Gets the breakout meeting name.
+ * @return The breakout meeting name.
+ */
 - (NSString * _Nullable)getBOMeetingName;
 
-/*!
-@brief get bo meeting user array.
-*/
+/**
+ * @brief Gets the breakout meeting user array.
+ * @return If the function succeeds, will get the breakout meeting user list.
+ */
 - (NSArray <NSString *>* _Nullable)getBOMeetingUserList;
 
 /**
- *@brief Get breakout meeting user status.
- *@param userID The user's user ID.
- *@return If the function succeeds,will return user status.
+ * @brief Gets the breakout meeting user status.
+ * @param userID The user's user ID.
+ * @return If the function succeeds, it returns the user status.
  */
 -(MobileRTCBOUserStatus)getBOUserStatusWithUserID:(NSString *_Nonnull)userID;
 @end
 
-/*!
-@brief enum for BO stop countdown.
-*/
+/**
+ * @brief Enumeration of Breakout Room (BO) stop countdown durations.
+ */
 typedef NS_ENUM(NSUInteger, MobileRTCBOStopCountDown) {
+    /** No countdown. Breakout Rooms stop immediately. */
     MobileRTCBOStopCountDown_Not_CountDown  = 0,
+    /** Countdown duration: 10 seconds before BO stops. */
     MobileRTCBOStopCountDown_Seconds_10,
+    /** Countdown duration: 15 seconds before BO stops. */
     MobileRTCBOStopCountDown_Seconds_15,
+    /** Countdown duration: 30 seconds before BO stops. */
     MobileRTCBOStopCountDown_Seconds_30,
+    /** Countdown duration: 60 seconds before BO stops. */
     MobileRTCBOStopCountDown_Seconds_60,
+    /** Countdown duration: 120 seconds before BO stops. */
     MobileRTCBOStopCountDown_Seconds_120,
 };
 
-/*!
- @brief BO option.
+/**
+ * @class MobileRTCBOOption
+ * @brief A class that contains breakout room options.
  */
 @interface MobileRTCBOOption : NSObject
 
-/*!
- @brief BO Count Down Second.
+/**
+ * @brief The breakout room countdown seconds.
  */
 @property (nonatomic, assign) MobileRTCBOStopCountDown countdownSeconds;
-/*!
- @brief Enable/Disable that participant can choose breakout room.
+
+/**
+ * @brief Enables or disables that participant can choose breakout room.
  */
 @property (nonatomic, assign) BOOL isParticipantCanChooseBO;
-/*!
- @brief Enable/Disable that participant can return to main session at any time.
+
+/**
+ * @brief Enables or disables that participant can return to main session at any time.
  */
 @property (nonatomic, assign) BOOL isParticipantCanReturnToMainSessionAtAnyTime;
-/*!
- @brief Enable/Disable that auto move all assigned participants to breakout room.
+
+/**
+ * @brief Enables or disables that auto move all assigned participants to breakout room.
  */
 @property (nonatomic, assign) BOOL isAutoMoveAllAssignedParticipantsEnabled;
-/*!
- @brief YES: it's timer BO NO: not timer BO
+
+/**
+ * @brief Indicates whether it's a timer breakout room. YES if it's a timer breakout room, NO otherwise.
  */
 @property (nonatomic, assign) BOOL isBOTimerEnabled;
-/*!
- @brief YES: if time is up, will stop BO auto. NO: don't auto stop.
+
+/**
+ * @brief Indicates whether to auto stop breakout room when time is up. YES if auto stop is enabled, NO otherwise.
  */
 @property (nonatomic, assign) BOOL isTimerAutoStopBOEnabled;
-/*!
- @brief seconds of BO timer duration
- @warning when timerDuration is 0, it means that the BO duration is 30*60 seconds.
+
+/**
+ * @brief The minutes of breakout room timer duration.
+ * @warning When timerDurationMinutes is 0, it means that the breakout room duration is 30 minutes.
  */
-@property (nonatomic, assign) NSInteger timerDuration;
+@property (nonatomic, assign) NSInteger timerDurationMinutes;
 
 //  WebinarBo
 /**
- *@brief Enable or disable webinar attendee join webinar BO. When it changes, the BO data will be reset.
+ * @brief Enables or disables webinar attendee join webinar breakout room. When it changes, the breakout room data will be reset.
  */
 @property(nonatomic,assign) BOOL isAttendeeContained;
 
 /**
- @brief Enable or disable that panelist can choose breakout room.
+ * @brief Enables or disables that panelist can choose breakout room.
  */
 @property(nonatomic,assign) BOOL isPanelistCanChooseBO;
 
 /**
- @brief Enable or disable that Attendee can choose breakout room, invalid when attendee is not contained.
+ * @brief Enables or disables that attendee can choose breakout room. Invalid when attendee is not contained.
  */
 @property(nonatomic,assign) BOOL isAttendeeCanChooseBO;
 
 /**
- @brief Enable or disable that max roomUser limits in BO room.
+ * @brief Enables or disables that max room user limits in breakout room.
  */
 @property(nonatomic,assign) BOOL isUserConfigMaxRoomUserLimitsEnabled;
 
 /**
- @brief Numbers of max roomUser limits in BO room, default is 20.
+ * @brief The number of max room user limits in breakout room. The default is 20.
  */
 @property(nonatomic,assign)unsigned int nUserConfigMaxRoomUserLimits;
 
+/**
+ * @brief Enables or disables auto-starting AI Companion for host or co-host in breakout rooms.
+ * @note This is effective only when \link MobileRTCBOCreator::isAICompanionSupported \endlink returns YES.
+ */
+@property(nonatomic, assign) BOOL isAICompanionEnabled;
+
+/**
+ * @brief Enables or disables auto-starting transcription in breakout rooms.
+ * @note This is effective only when \link MobileRTCBOCreator::isTranscriptionSupported \endlink returns YES.
+ */
+@property(nonatomic, assign) BOOL isTranscriptionEnabled;
+
 @end
 
-/*!
+/**
  *    //////////////////////////// Creator ////////////////////////////
  *    1. Main Functions:
  *        1) create|delete|rename BO
@@ -176,270 +221,319 @@ typedef NS_ENUM(NSUInteger, MobileRTCBOStopCountDown) {
  *       1) if CoHost is desktop client, and host is desktop client, the CoHost has objects: [creator + admin + assistant + dataHelper]
  *      2) if CoHost is desktop client, and host is mobile client, the CoHost has object: [attendee]
  *      3) if CoHost is mobile client, the CoHost has object: [attendee]
-*/
+ */
 
+/**
+ * @class MobileRTCBOCreator
+ * @brief A class for creating and managing breakout rooms.
+ */
 @interface MobileRTCBOCreator : NSObject
 
-/*!
-@brief create a bo meeting.
-@param boName the BO name.
-@return bo meeting id.
-*/
-- (NSString * _Nullable)createBO:(NSString * _Nonnull)boName;
+/**
+ * @brief Creates a breakout meeting.
+ * @param boName The breakout room name.
+ * @return The breakout meeting ID.
+ * @deprecated Use \link createBreakoutRoom: \endlink instead.
+ */
+- (NSString * _Nullable)createBO:(NSString * _Nonnull)boName DEPRECATED_MSG_ATTRIBUTE("Use createBreakoutRoom: instead");
 
-/*!
-@brief create bo meetings in batches.
-@param boNameList the BO name list.
-@return batch bo create success or not
-*/
+/**
+ * @brief Creates a breakout room.
+ * @param boName The breakout room name.
+ * @return YES if the function succeeds. Otherwise, NO.
+ * @note 1. This function is compatible with meeting breakout room and webinar breakout room.
+ * @note 2. This function is asynchronous. The callback is 'onCreateBOResponse:BOID:'.
+ * @note 3. Webinar breakout room is only supported in Zoom UI mode.
+ */
+- (BOOL)createBreakoutRoom:(NSString * _Nonnull)boName;
+
+/**
+ * @brief Creates breakout meetings in batches.
+ * @param boNameList The breakout room name list.
+ * @return YES if batch breakout room creation succeeds. Otherwise, NO.
+ */
 - (BOOL)createGroupBO:(NSArray<NSString*> * _Nonnull)boNameList;
 
 /**
- *@brief Creator webinar breakout meeting.
- *@param boNameList Breakout meeting name list，the element of nameList should less than 50 characters.
- *@return If the function succeeds,will return YES.
+ * @brief Creates webinar breakout meeting. Available only for Zoom UI mode.
+ * @param boNameList The breakout meeting name list. Each element of nameList should be less than 50 characters.
+ * @return YES if the function succeeds. Otherwise, NO.
+ * @deprecated Use \link createBreakoutRoom: \endlink instead.
  */
-- (BOOL)createWebinarBO:(NSArray<NSString*> * _Nonnull)boNameList;
+- (BOOL)createWebinarBO:(NSArray<NSString*> * _Nonnull)boNameList DEPRECATED_MSG_ATTRIBUTE("Use createBreakoutRoom: instead");
 
-/*!
-@brief update bo meeting name with bo id.
-@param boId the BO id.
-@param boName the BO name.
-@return update success or not.
-*/
+/**
+ * @brief Updates breakout meeting name with breakout room ID. The callback is 'onUpdateBONameResponse:BOID'.
+ * @param boId The breakout room ID.
+ * @param boName The breakout room name.
+ * @return YES if update succeeds. Otherwise, NO.
+ */
 - (BOOL)updateBO:(NSString * _Nonnull)boId name:(NSString * _Nonnull)boName;
 
-/*!
-@brief remove a bo meeting.
-@param boId the BO id.
-@return remove bo meting success or not.
-*/
+/**
+ * @brief Removes a breakout meeting. The callback is 'onRemoveBOResponse:BOID:'.
+ * @param boId The breakout room ID.
+ * @return YES if remove breakout meeting succeeds. Otherwise, NO.
+ */
 - (BOOL)removeBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief assign a user to a bo meeting.
-@param boUserId the BO user id.
-@param boId the BO id.
-@return assign success or not.
-*/
+/**
+ * @brief Assigns a user to a breakout meeting.
+ * @param boUserId The breakout room user ID.
+ * @param boId The breakout room ID.
+ * @return YES if assign succeeds. Otherwise, NO.
+ */
 - (BOOL)assignUser:(NSString * _Nonnull)boUserId toBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief remove a user from a bo meeting.
-@return remove success or not.
-*/
+/**
+ * @brief Removes a user from a breakout meeting.
+ * @param boUserId The breakout room user ID.
+ * @param boId The breakout room ID.
+ * @return YES if remove succeeds. Otherwise, NO.
+ */
 - (BOOL)removeUser:(NSString * _Nonnull)boUserId fromBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief Set BO option.
- @param option the option that you want to set.
-@return if success the return value is YES, otherwise NO.
-*/
-- (BOOL)setBOOption:(MobileRTCBOOption *_Nonnull)option;
+/**
+ * @brief Sets breakout room option.
+ * @param option The option that you want to set.
+ * @return MobileRTCSDKError_Success if the function succeeds. Otherwise, returns a specific error (e.g. MobileRTCSDKError_Breakout_Room_Not_Created).
+ */
+- (MobileRTCSDKError)setBOOption:(MobileRTCBOOption *_Nonnull)option;
 
-/*!
-@brief Get BO option.
-@return the BOOption value.
-*/
+/**
+ * @brief Gets breakout room option.
+ * @return The breakout room option value.
+ */
 - (MobileRTCBOOption * _Nullable)getBOOption;
 
-/*!
-@brief Check whether web enabled the pre-assigned option when scheduling a meeting.
-@return YES if it is enabled, otherwise NO.
-*/
+/**
+ * @brief Checks whether web enabled the pre-assigned option when scheduling a meeting.
+ * @return YES if it is enabled. Otherwise, NO.
+ */
 - (BOOL)isWebPreAssignBOEnabled;
 
-/*!
-@brief Request web pre-assigned data and create those rooms.
-@return If the function succeeds, the return value is MobileRTCSDKError_Success.Otherwise failed. To get extended error information, see [MobileRTCSDKError]
-*/
+/**
+ * @brief Requests web pre-assigned data and creates those rooms.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ */
 - (MobileRTCSDKError)requestAndUseWebPreAssignBOList;
 
-/*!
-@brief Get the downloading status of pre-assigned data.
-@returnThe return value is a enum for download status. For more details, see [MobileRTCBOPreAssignBODataStatus]
-*/
+/**
+ * @brief Gets the downloading status of pre-assigned data.
+ * @return The download status.
+ */
 - (MobileRTCBOPreAssignBODataStatus)getWebPreAssignBODataStatus;
+
+/**
+ * @brief Checks whether AI Companion can be enabled in breakout rooms.
+ * @return YES if AI Companion is supported for breakout rooms. Otherwise, NO.
+ */
+- (BOOL)isAICompanionSupported;
+
+/**
+ * @brief Checks whether transcription can be enabled in breakout rooms.
+ * @return YES if transcription is supported for breakout rooms. Otherwise, NO.
+ */
+- (BOOL)isTranscriptionSupported;
 
 @end
 
+/**
+ * @class MobileRTCBOAdmin
+ * @brief A class for managing breakout rooms.
+ */
 @interface MobileRTCBOAdmin : NSObject
-/*!
-@brief start bo meeting which assigned.
-@return start success or not
-*/
+
+/**
+ * @brief Starts the assigned breakout meeting. The callback is 'onStartBOResponse:'.
+ * @return YES if start succeeds. Otherwise, NO.
+ */
 - (BOOL)startBO;
 
-/*!
-@brief stop bo meeting which assigned.
-@return stop success or not
-*/
+/**
+ * @brief Stops the assigned breakout meeting. The callback is 'onStopBOResponse:'.
+ * @return YES if stop succeeds. Otherwise, NO.
+ */
 - (BOOL)stopBO;
 
-/*!
-@brief assign a bo user to a started bo meeting.
-@param boUserId the BO user id.
-@param boId the BO id.
-@return the result of call the method.
-*/
+/**
+ * @brief Assigns a breakout room user to a started breakout meeting.
+ * @param boUserId The breakout room user ID.
+ * @param boId The breakout room ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)assignNewUser:(NSString * _Nonnull)boUserId toRunningBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief switch a user to a new started bo meeting.
-@param boUserId the BO user id.
-@param boId the BO id.
-@return the result of call the method.
-*/
+/**
+ * @brief Switches a user to a new started breakout meeting.
+ * @param boUserId The breakout room user ID.
+ * @param boId The breakout room ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)switchUser:(NSString * _Nonnull)boUserId toRunningBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief indicate that the bo can be start or not.
-@return the result of call the method.
-*/
+/**
+ * @brief Determines if the breakout room can be started.
+ * @return YES if the breakout room can be started. Otherwise, NO.
+ */
 - (BOOL)canStartBO;
 
-/*!
-@brief join bo meeting for designated bo user id.
-@param boUserId the BO user id.
-@return the result of call the method.
-*/
+/**
+ * @brief Joins breakout meeting for designated breakout room user ID.
+ * @param boUserId The breakout room user ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)joinBOByUserRequest:(NSString * _Nonnull)boUserId;
 
-/*!
-@brief reply ignore for the help request from bo attendees
-@param boUserId the BO user id.
-@return the result of call the method.
-*/
+/**
+ * @brief Ignores the help request from breakout room attendees.
+ * @param boUserId The breakout room user ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)ignoreUserHelpRequest:(NSString * _Nonnull)boUserId;
 
-/*!
-@brief broadcase message for all attendees in the meeting.
-@param strMsg the bo message.
-@return the result of call the method.
-*/
+/**
+ * @brief Broadcasts a message to all attendees in the meeting.
+ * @param strMsg The breakout room message.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)broadcastMessage:(NSString * _Nonnull)strMsg;
 
-/*!
-@brief Host invite user return to main session, When BO is started and user is in BO.
-@param boUserId the bo user id.
-@return YES indicates success, otherwise fail.
-*/
+/**
+ * @brief Host invites user to return to main session. When breakout room is started and user is in breakout room.
+ * @param boUserId The breakout room user ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)inviteBOUserReturnToMainSession:(NSString * _Nonnull)boUserId;
-/*!
- @brief Query if the current meeting supports broadcasting host's voice to BO.
- @return YES means that the meeting supports this, otherwise it's not supported.
+
+/**
+ * @brief Queries if the current meeting supports broadcasting host's voice to breakout room.
+ * @return YES if the meeting supports this. Otherwise, NO.
  */
 - (BOOL)isBroadcastVoiceToBOSupport;
 
-/*!
- @brief Query if the host now has the ability to broadcast voice to BO.
- @return true means that the host now has the ability, otherwise the host does not.
+/**
+ * @brief Queries if the host now has the ability to broadcast voice to breakout room.
+ * @return YES if the host now has the ability. Otherwise, NO.
  */
 - (BOOL)canBroadcastVoiceToBO;
-/*!
- @brief start or stop broadcasting voice to BO.
- @param bStart YES for start and NO for stop.
- @return YES means that the invocation succeeds., Otherwise, it fails.
+
+/**
+ * @brief Starts or stops broadcasting voice to breakout room.
+ * @param bStart YES to start, NO to stop.
+ * @return YES if the invocation succeeds. Otherwise, NO.
  */
 - (BOOL)broadcastVoiceToBO:(BOOL)bStart;
 @end
 
+/**
+ * @class MobileRTCBOAssistant
+ * @brief A class that manages operations for joining and leaving breakout meetings as an assistant.
+ */
 @interface MobileRTCBOAssistant : NSObject
 
-/*!
-@brief join a bo meeting with bo id..
-@param boId the BO id.
-@return the result of call the method.
-*/
+/**
+ * @brief Joins a breakout meeting with breakout room ID.
+ * @param boId The breakout room ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)joinBO:(NSString * _Nonnull)boId;
 
-/*!
-@brief leave joined bo meeting.
-@return the result of call the method.
-*/
+/**
+ * @brief Leaves the joined breakout meeting.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)leaveBO;
 
 @end
 
+/**
+ * @class MobileRTCBOAttendee
+ * @brief A class that manages operations for attendees in breakout meetings.
+ */
 @interface MobileRTCBOAttendee : NSObject
 
-/*!
-@brief join to assined bo meeting.
-@return the result of call the method.
-*/
+/**
+ * @brief Joins the assigned breakout meeting.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)joinBO;
 
-/*!
-@brief leave assined bo meeting.
-@return the result of call the method.
-*/
+/**
+ * @brief Leaves the assigned breakout meeting.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)leaveBO;
 
-/*!
-@brief get bo meeting name.
-@return the bo name.
-*/
+/**
+ * @brief Gets the breakout meeting name.
+ * @return The breakout room name.
+ */
 - (NSString * _Nullable)getBOName;
 
-/*!
-@brief send help to admin
-@return the result of call the method.
-*/
+/**
+ * @brief Sends help request to admin.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)requestForHelp;
 
-/*!
-@brief if the host in current bo.
-@return the result of call the method.
-*/
+/**
+ * @brief Determines if the host is in the current breakout room.
+ * @return YES if the host is in the current breakout room. Otherwise, NO.
+ */
 - (BOOL)isHostInThisBO;
 
-/*!
- @brief Determine if participant can return to main session.
- @return YES if can, otherwise NO.
-*/
+/**
+ * @brief Determines if participant can return to main session.
+ * @return YES if participant can return to main session. Otherwise, NO.
+ */
 - (BOOL)isCanReturnMainSession;
 
 @end
 
+/**
+ * @class MobileRTCBOData
+ * @brief A class that provides data helper functions for breakout meetings.
+ */
 @interface MobileRTCBOData : NSObject
 
-/*!
-@brief get un assined user list.
-@return the unassigned user list.
-*/
+/**
+ * @brief Gets the unassigned user list.
+ * @return The unassigned user list.
+ */
 - (NSArray * _Nullable)getUnassignedUserList;
 
-/*!
-@brief get all bo meeting id list.
-@return the BOMeeting id list.
-*/
+/**
+ * @brief Gets all breakout meeting ID list.
+ * @return The breakout meeting ID list.
+ */
 - (NSArray * _Nullable)getBOMeetingIDList;
 
-/*!
-@brief get bo user object by bo user id
-@param userId the user id.
-@return the object of MobileRTCBOUser.
-*/
+/**
+ * @brief Gets the breakout room user object by breakout room user ID.
+ * @param userId The user ID.
+ * @return If the function succeeds, it returns a MobileRTCBOUser object. Otherwise, this function fails and returns nil.
+ */
 - (MobileRTCBOUser * _Nullable)getBOUserByUserID:(NSString * _Nonnull)userId;
 
-/*!
-@brief get bo meeting object by bo meeting id.
-@param boId the BO id.
-@return the object of MobileRTCBOMeeting.
-*/
+/**
+ * @brief Gets the breakout meeting object by breakout meeting ID.
+ * @param boId The breakout room ID.
+ * @return If the function succeeds, it returns a MobileRTCBOMeeting object. Otherwise, this function fails and returns nil.
+ */
 - (MobileRTCBOMeeting * _Nullable)getBOMeetingByID:(NSString * _Nonnull)boId;
 
-/*!
-@brief get bo meeting name of current BO.
-@return the current BO name.
-*/
-- (NSString  * _Nullable)getCurrentBOName;
+/**
+ * @brief Gets the breakout meeting name of the current breakout room.
+ * @return The current breakout room name.
+ */
+- (NSString * _Nullable)getCurrentBOName;
 
-/*!
-@brief whether the boUserId is current user.
-@param boUserId the bo user id.
- @return the result of call the method.
-*/
+/**
+ * @brief Determines whether the breakout room user ID is the current user.
+ * @param boUserId The breakout room user ID.
+ * @return YES if the breakout room user ID is the current user. Otherwise, NO.
+ */
 - (BOOL)isBOUserMyself:(NSString *_Nonnull)boUserId;
 
 @end

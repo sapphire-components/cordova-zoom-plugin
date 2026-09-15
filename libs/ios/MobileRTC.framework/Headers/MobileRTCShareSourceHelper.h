@@ -1,23 +1,24 @@
-//
-//  MobileRTCShareSourceHelper.h
-//  MobileRTC
-//
-//  Created by Zoom on 2022/6/30.
-//  Copyright © 2022 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCShareSourceHelper.h
+ * @brief Helper for managing screen sharing sources.
+ */
 
 #import <Foundation/Foundation.h>
 
 
+/**
+ * @class MobileRTCShareSourceHelper
+ * @brief A helper that manages external source for share video and share audio in a meeting.
+ */
 @interface MobileRTCShareSourceHelper : NSObject
 
-/*!
-@brief Start sharing external source.
-@param shareDelegate The external source object pointer. Please See MobileRTCShareSourceDelegate
-@param audioDelegate .The external audio source object pointer.  Please See MobileRTCShareAudioSourceDelegate.
-@return return If the function succeeds, the return value is MobileRTCRawData_Success.
-@warning If audioDelegate is non-null, it indicates sharinge user-defined audio at the same time
-*/
+/**
+ * @brief Starts sharing external source.
+ * @param shareDelegate The external source object pointer. See MobileRTCShareSourceDelegate.
+ * @param audioDelegate The external audio source object pointer. See MobileRTCShareAudioSourceDelegate.
+ * @return If the function succeeds, it will return MobileRTCRawDataError_Success. Otherwise return an error.
+ * @warning If audioDelegate is non-null, it indicates sharing user-defined audio at the same time.
+ */
 - (MobileRTCRawDataError)setExternalShareSource:(id<MobileRTCShareSourceDelegate> _Nullable)shareDelegate andAudioSource:(id <MobileRTCShareAudioSourceDelegate> _Nullable)audioDelegate;
 
 @end

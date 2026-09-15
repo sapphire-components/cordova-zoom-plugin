@@ -1,360 +1,405 @@
-//
-//  MobileRTCMeetingService+Interpretation.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2020/10/15.
-//  Copyright © 2020 Zoom Video Communications, Inc. All rights reserved.
-//
-
+/**
+ * @file MobileRTCMeetingService+Interpretation.h
+ * @brief Meeting+Interpretation service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 
-/*!
-@brief The information of interpretation language.
-*/
+/**
+ * @class MobileRTCInterpretationLanguage
+ * @brief The information of interpretation language.
+ */
 @interface MobileRTCInterpretationLanguage : NSObject
+/**
+ * @brief Gets the language ID.
+ * @return The language ID.
+ */
 - (NSInteger)getLanguageID;
+/**
+ * @brief Gets the language alias (abbreviation).
+ * @return A string representing the language abbreviation (e.g., "EN", "CN").
+ */
 - (NSString * _Nullable)getLanguageAbbreviations;
+/**
+ * @brief Gets the language name.
+ * @return A string representing the full language name (e.g., "English", "Chinese").
+ */
 - (NSString * _Nullable)getLanguageName;
 @end
 
-/*!
-@brief The information of interpreter.
-*/
+/**
+ * @class MobileRTCMeetingInterpreter
+ * @brief The information of interpreter.
+ */
 @interface MobileRTCMeetingInterpreter : NSObject
+/**
+ * @brief Gets the interpreter's user ID.
+ * @return The user ID of the interpreter.
+ */
 - (NSInteger)getUserID;
+/**
+ * @brief Gets the interpreter's first supported language ID.
+ * @return The language ID.
+ */
 - (NSInteger)getLanguageID1;
+/**
+ * @brief Gets the interpreter's second supported language ID.
+ * @return The language ID.
+ */
 - (NSInteger)getLanguageID2;
+/**
+ * @brief Determines if currently available in the meeting.
+ * @return YES if the interpreter is available and has joined the meeting. Otherwise, NO.
+ */
 - (BOOL)isAvailable;
 
 @end
 
+/**
+ * @brief Interface for managing interpretation in a Zoom meeting.
+ */
 @interface MobileRTCMeetingService (Interpretation)
 
 //Common (for all)
 
-/*!
- @brief Determine if interpretation feature is enabled in the meeting.
-*/
+/**
+ * @brief Determines if the interpretation feature is enabled in the meeting.
+ * @return YES if the interpretation function is enabled. Otherwise, NO.
+ */
 - (BOOL)isInterpretationEnabled;
 
-/*!
- @brief Determine if interpretation has been started by host.
-*/
+/**
+ * @brief Determines if interpretation has been started by the host.
+ * @return YES if interpretation is started. Otherwise, NO.
+ */
 - (BOOL)isInterpretationStarted;
 
-/*!
- @brief Determine if myself is interpreter.
-*/
+/**
+ * @brief Determines if myself is an interpreter.
+ * @return YES if self is an interpreter. Otherwise, NO.
+ */
 - (BOOL)isInterpreter;
 
-/*!
- @brief Get the interpretation language object of specified language ID.
- @param lanID Specify the language ID for which you want to get the information.
- @return If the function succeeds, the return value is a pointer to the MobileRTCInterpretationLanguage, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets the interpretation language object of the specified language ID.
+ * @param lanID The language ID for which you want to get the information.
+ * @return If the function succeeds, it returns a MobileRTCInterpretationLanguage object. Otherwise, this function fails and returns nil.
+ */
 - (MobileRTCInterpretationLanguage * _Nullable)getInterpretationLanguageByID:(NSInteger)lanID;
 
 //Admin (only for host)
 
-/*!
- @brief Get the all interpretation language list.
- @return If the function succeeds, the return value is a pointer to the NSArray <MobileRTCInterpretationLanguage *>, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets all interpretation language list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCInterpretationLanguage objects. Otherwise, this function fails and returns nil.
+ */
 - (NSArray <MobileRTCInterpretationLanguage *> * _Nullable)getAllLanguageList;
 
-/*!
- @brief Get the interpreters list.
- @return If the function succeeds, the return value is a pointer to the NSArray <MobileRTCMeetingInterpreter *>, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets the interpreters list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCMeetingInterpreter objects. Otherwise, this function fails and returns nil.
+ */
 - (NSArray <MobileRTCMeetingInterpreter *> * _Nullable)getInterpreterList;
 
-/*!
- @brief Add someone as a interpreter.
- @param userID Specify the user.
- @param lanID1 Specify the language1.
- @param lanID2 Specify the language2.
- @return The result of the function.
-*/
+/**
+ * @brief Adds someone as an interpreter.
+ * @param userID The user ID.
+ * @param lanID1 The first language ID.
+ * @param lanID2 The second language ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)addInterpreter:(NSUInteger)userID lan1:(NSInteger)lanID1 andLan2:(NSInteger)lanID2;
 
-/*!
- @brief Remove some interpreter.
- @param userID Specify the interpreter.
- @return The result of the function.
-*/
+/**
+ * @brief Removes an interpreter.
+ * @param userID The interpreter user ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)removeInterpreter:(NSUInteger)userID;
 
-/*!
- @brief modify the language of some interpreter.
- @param userID Specify the interpreter.
- @param lanID1 Specify the new language1.
- @param lanID2 Specify the new language2.
- @return The result of the function.
-*/
+/**
+ * @brief Modifies the language of an interpreter.
+ * @param userID The interpreter user ID.
+ * @param lanID1 The new first language ID.
+ * @param lanID2 The new second language ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)modifyInterpreter:(NSUInteger)userID lan1:(NSInteger)lanID1 andLan2:(NSInteger)lanID2;
 
-/*!
- @brief Start interpretation.
- @return The result of the function.
-*/
+/**
+ * @brief Starts interpretation.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)startInterpretation;
 
-/*!
- @brief Stop interpretation.
- @return The result of the function.
-*/
+/**
+ * @brief Stops interpretation.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)stopInterpretation;
 
 //Listener (for non interpreter)
 
-/*!
- @brief Get the available interpretation language list.
- @return If the function succeeds, the return value is a pointer to the NSArray <MobileRTCInterpretationLanguage *>, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets the available interpretation language list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCInterpretationLanguage objects. Otherwise, this function fails and returns nil.
+ */
 - (NSArray <MobileRTCInterpretationLanguage *> * _Nullable)getAvailableLanguageList;
 
-/*!
- @brief Join some language channel.
- @param lanID Specify the language channel.
- @return The result of the function.
-*/
+/**
+ * @brief Joins a language channel.
+ * @param lanID The language channel ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)joinLanguageChannel:(NSInteger)lanID;
 
-/*!
- @brief Get the language ID which myself is in.
- @return The LanguageID.
-*/
+/**
+ * @brief Gets the language ID which myself is in.
+ * @return The language ID.
+ */
 - (NSInteger)getJoinedLanguageID;
 
-/*!
- @brief Turn off the major audio, if you are in some interpreter language channel.
- @return The result of the function.
-*/
+/**
+ * @brief Turns off the major audio if you are in some interpreter language channel.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)turnOffMajorAudio;
 
-/*!
- @brief Turn on the major audio, if you are in some interpreter language channel.
- @return The result of the function.
-*/
+/**
+ * @brief Turns on the major audio if you are in some interpreter language channel.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)turnOnMajorAudio;
 
-/*!
- @brief Determine if the major audio is off.
- @return The result of the function.
-*/
+/**
+ * @brief Determines if the major audio is off.
+ * @return YES if the major audio is off. Otherwise, NO.
+ */
 - (BOOL)isMajorAudioTurnOff;
 
 //interpreter (only for interpreter)
 
-/*!
- @brief Get languages if myself is a interpreter.
- @return If the function succeeds, the return value is a pointer to the NSArray NSArray <MobileRTCInterpretationLanguage *>, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets languages if myself is an interpreter.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCInterpretationLanguage objects. Otherwise, this function fails and returns nil.
+ */
 - (NSArray <MobileRTCInterpretationLanguage *> * _Nullable)getInterpreterLans;
 
-/*!
- @brief Set a language channel which myself will be in, if myself is a interpreter.
- @param activeLanID Specify the active language.
- @return The result of the function.
-*/
+/**
+ * @brief Sets a language channel which myself will be in, if myself is an interpreter.
+ * @param activeLanID The active language ID.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)setInterpreterActiveLan:(NSInteger)activeLanID;
 
-/*!
- @brief Get the active language ID, if myself is a interpreter.
- @return The Active LanguageID..
-*/
+/**
+ * @brief Gets the active language ID, if myself is an interpreter.
+ * @return The active language ID.
+ */
 - (NSInteger)getInterpreterActiveLan;
 
-/*!
- @brief Get the list of available languages that interpreters can hear.
- @return If the function succeeds, the return value is a pointer to the NSArray NSArray <MobileRTCInterpretationLanguage *>, Otherwise failed, the return value is nil.
-*/
+/**
+ * @brief Gets the list of available languages that interpreters can hear.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCInterpretationLanguage objects. Otherwise, this function fails and returns nil.
+ */
 - (NSArray <MobileRTCInterpretationLanguage *> * _Nullable)getInterpreterAvailableLanguages;
 
-/*!
- @brief Set a language that I can hear as an interpreter.
- @param lanID Specify the selected language that I can hear as an interpreter.
- @return The result of the function.
-*/
+/**
+ * @brief Sets a language that I can hear as an interpreter.
+ * @param lanID The selected language ID that I can hear as an interpreter.
+ * @return YES if the function succeeds. Otherwise, NO.
+ */
 - (BOOL)setInterpreterListenLan:(NSInteger)lanID;
 
-/*!
- @brief Get a language that I can hear as an interpreter.
- @return Specify the selected language that I can hear as an interpreter.Otherwise failed, the return value is -1.
-*/
+/**
+ * @brief Gets a language that I can hear as an interpreter.
+ * @return Specify the selected language that I can hear as an interpreter.Otherwise failed, the return value is -1.
+ */
 - (NSInteger)getInterpreterListenLan;
 
 @end
 
 #pragma mark  MobileRTCSignInterpreter
 
+/**
+ * @class MobileRTCSignInterpreterLanguage
+ * @brief Represent interpretation language information.
+ */
 @interface  MobileRTCSignInterpreterLanguage : NSObject
 
 /**
- @brief Get sign language id.
+ * @brief The sign language name.
  */
 @property (copy, nonatomic, nullable) NSString *  languageName;
 /**
- @brief Get sign language name.
+ * @brief The sign language ID.
  */
 @property (copy, nonatomic, nullable) NSString *  languageID;
 
 @end
 
+/**
+ * @class MobileRTCSignInterpreter
+ * @brief Object of interpreter.
+ */
 @interface  MobileRTCSignInterpreter : NSObject
 /**
- @brief Get the user ID.
+ * @brief The user ID.
  */
 @property (assign, nonatomic)           NSUInteger userID;
 /**
- @brief Determine if the sign interpreter is available.
+ * @brief YES if the sign interpreter is available. Otherwise, NO.
  */
 @property (assign, nonatomic)           BOOL available;
 /**
- @brief Get sign user name.
+ * @brief The sign user name.
  */
 @property (copy, nonatomic, nullable)    NSString *  userName;
 /**
- @brief Get sign email.
+ * @brief The sign email.
  */
 @property (copy, nonatomic, nullable)    NSString *  email;
 /**
- @brief Get sign language name.
+ * @brief The sign language name.
  */
 @property (copy, nonatomic, nullable)    NSString *  languageName;
 /**
- @brief Get the language id of the sign interpreter support.
+ * @brief The language ID of the sign interpreter support.
  */
 @property (copy, nonatomic, nullable)    NSString *  languageID;
 
 @end
 
 
+/**
+ * @brief Manage sign interpretation status, interpreters, and available languages in a Zoom meeting.
+ */
 @interface MobileRTCMeetingService (SignInterpreter)
 
 /**
- @brief Determine if the sign interpretation function is enabled.
- @return YES means sign interpretation function is enable,otherwise not.
+ * @brief Determines if the sign interpretation function is enabled.
+ * @return YES if the sign interpretation function is enabled. Otherwise, NO.
  */
 - (BOOL)isSignInterpretationEnabled;
 
 /**
- @brief Get sign interpretation status of current meeting.
- @return If the function succeeds, the return value is the sign interpretation status of current meeting.For more details, see {@link MobileRTCSignInterpretationStatus}.
+ * @brief Gets the sign interpretation status of the current meeting.
+ * @return The sign interpretation status of the current meeting.
  */
 - (MobileRTCSignInterpretationStatus)getSignInterpretationStatus;
 
 /**
- @brief Determine if self is sign interpreter.
- @return YES means self is sign interpreter,otherwise not.
+ * @brief Determines if self is a sign interpreter.
+ * @return YES if self is a sign interpreter. Otherwise, NO.
  */
 - (BOOL)isSignInterpreter;
 
 /**
- @brief Get the sign interpretation language object of specified sign language ID.
- @param signLanguageID Specify the sign language ID for which you want to get the information.
- @return If the function succeeds, the return value is MobileRTCSignInterpreterLanguage object.
+ * @brief Gets the sign interpretation language object of the specified sign language ID.
+ * @param signLanguageID The sign language ID for which you want to get the information.
+ * @return If the function succeeds, it returns a MobileRTCSignInterpreterLanguage object. Otherwise, this function fails and returns nil.
  */
 - (MobileRTCSignInterpreterLanguage *_Nullable)getSignInterpretationLanguageInfoByID:(NSString *_Nullable)signLanguageID;
 
 /**
- @brief Get the available sign interpretation language list.
- @return If the function succeeds, the return array contain available language object.
+ * @brief Gets the available sign interpretation language list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCSignInterpreterLanguage objects. Otherwise, this function fails and returns nil.
  */
 - (NSArray<MobileRTCSignInterpreterLanguage *> *_Nullable)getAvailableSignLanguageInfoList;
 
 /**
- @brief Get the all supported sign interpretation language list.only for host.
- @return If the function succeeds, the return array contain support language object.
- @warning the interface for host only.
+ * @brief Gets all supported sign interpretation language list. Only for host.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCSignInterpreterLanguage objects. Otherwise, this function fails and returns nil.
+ * @warning The interface is for host only.
  */
 - (NSArray<MobileRTCSignInterpreterLanguage *> *_Nullable)getAllSupportedSignLanguageInfoList;
 
 /**
- @brief Get the sign interpreters list.
- @return If the function succeeds, the return array contain sign interpreter object.
+ * @brief Gets the sign interpreters list.
+ * @return If the function succeeds, it returns an NSArray of MobileRTCSignInterpreter objects. Otherwise, this function fails and returns nil.
  */
 - (NSArray<MobileRTCSignInterpreter *> *_Nullable)getSignInterpreterList;
 
 /**
- @brief Add someone as a sign interpreter.
- @param userID The unique identity of the user.
- @param signLanID The id of sign language.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
- @warning the interface for host only.
+ * @brief Adds someone as a sign interpreter.
+ * @param userID The unique identity of the user.
+ * @param signLanID The ID of sign language.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is for host only.
  */
 - (MobileRTCSDKError)addSignInterpreter:(NSUInteger)userID signLanId:(NSString *_Nullable)signLanID;
 
 /**
- @brief Remove interpreter.
- @param userID The unique identity of the user.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
- @warning the interface for host only.
+ * @brief Removes an interpreter.
+ * @param userID The unique identity of the user.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is for host only.
  */
 - (MobileRTCSDKError)removeSignInterpreter:(NSUInteger)userID;
 
 /**
- @brief Modify the language of some sign interpreter.
- @param userID The unique identity of the user.
- @param signLanID The id of sign language.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
- @warning the interface for host only.
+ * @brief Modifies the language of a sign interpreter.
+ * @param userID The unique identity of the user.
+ * @param signLanID The ID of sign language.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is for host only.
  */
 - (MobileRTCSDKError)modifySignInterpreter:(NSUInteger)userID signLanId:(NSString *_Nullable)signLanID;
 
 /**
- @brief Determine if I can start the sign interpretation in the meeting.
- @warning the interface for host only.
+ * @brief Determines if I can start the sign interpretation in the meeting.
+ * @return YES if I can start the sign interpretation in the meeting. Otherwise, NO.
+ * @warning The interface is for host only.
  */
 - (BOOL)canStartSignInterpretation;
 
 /**
- @brief Start sign interpretation.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
- @warning the interface for host only.
+ * @brief Starts sign interpretation.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is for host only.
  */
 - (MobileRTCSDKError)startSignInterpretation;
 
 /**
- @brief Stop sign interppretation.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
- @warning the interface for host only.
+ * @brief Stops sign interpretation.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is for host only.
  */
 - (MobileRTCSDKError)stopSignInterpretation;
 
 /**
- @brief Host allow sign language interpreter to talk.
- @param userID The unique identity of the user.
- @param allowToTalk YES indicates to allow to talk, otherwise not.
- @return If the function succeeds, it will return MobileRTCSDKError_Success, otherwise not.
+ * @brief The host allows or disallows sign language interpreter to talk.
+ * @param userID The unique identity of the user.
+ * @param allowToTalk YES to allow to talk. Otherwise, NO.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)requestSignLanuageInterpreterToTalk:(NSUInteger)userID allowToTalk:(BOOL)allowToTalk;
 
 /**
- @brief Determine if the sign language interpreter be allowed to talk.
- @param userID The unique identity of the user.
- @return YES indicates to allow to talk, otherwise not.
+ * @brief Determines if the sign language interpreter is allowed to talk.
+ * @param userID The unique identity of the user.
+ * @return YES if allowed to talk. Otherwise, NO.
  */
 - (BOOL)isAllowSignLanuageInterpreterToTalk:(NSUInteger)userID;
 
 /**
- @brief Get sign language id if myself is a sign interpreter.only for interpreter.
- @return If the function succeeds, the return value is the current assigned sign language id, otherwise not.
+ * @brief Gets sign language ID if myself is a sign interpreter. Only for interpreter.
+ * @return The current assigned sign language ID.
  */
 - (NSString *_Nullable)getSignInterpreterAssignedLanID;
 
 /**
- @brief Join some sign language channel if myself is not a sign interpreter.only for non-interpreter.
- @return If the function succeeds, it will return MobileRTCSDKError_succuss, otherwise not.
- @warning the inferface only for ZOOM UI
+ * @brief Joins a sign language channel if myself is not a sign interpreter. Only for non-interpreter.
+ * @param signLanID The sign language ID.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is only for Zoom UI.
  */
 - (MobileRTCSDKError)joinSignLanguageChannel:(NSString *_Nullable)signLanID;
 
 /**
- @brief Leave current sign language channel if myself is not a sign interpreter.only for non-interpreter.
- @return If the function succeeds, it will return MobileRTCSDKError_succuss, otherwise not.
- @warning the inferface only for ZOOM UI
+ * @brief Leaves the current sign language channel if myself is not a sign interpreter. Only for non-interpreter.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning The interface is only for Zoom UI.
  */
 - (MobileRTCSDKError)leaveSignLanguageChannel;
 @end

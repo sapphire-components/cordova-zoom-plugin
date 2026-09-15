@@ -1,40 +1,41 @@
-//
-//  MobileRTCWaitingRoomService.h
-//  MobileRTC
-//
-//  Created by Zoom Video Communications on 2019/3/6.
-//  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCWaitingRoomService.h
+ * @brief Waiting room management and participant handling.
+ */
 
 #import <Foundation/Foundation.h>
 
-/*!
- @brief WaitingRoom LayoutType.
- Here are more detailed structural descriptions.
+/**
+ * @brief Enumeration of waiting room layout type. For more information, please visit <https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059359>.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCWaitingRoomLayoutType) {
+    /** Default layout. */
     MobileRTCWaitingRoomLayoutType_Default = 0,
+    /** Layout displaying a logo. */
     MobileRTCWaitingRoomLayoutType_Logo,
+    /** Layout displaying a video. */
     MobileRTCWaitingRoomLayoutType_Video,
 };
 
-/*!
- @brief Downloading Status of MobileRTCCustomWaitingRoomData.
- Here are more detailed structural descriptions.
+/**
+ * @brief Enumeration for the status of custom waiting room data.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCCustomWaitingRoomDataStatus) {
+    /** Initial state, before any download has started. */
     MobileRTCCustomWaitingRoomDataStatus_Init,
+    /** Custom waiting room data is currently being downloaded. */
     MobileRTCCustomWaitingRoomDataStatus_Downloading,
+    /** Custom waiting room data has been successfully downloaded. */
     MobileRTCCustomWaitingRoomDataStatus_Download_OK,
+    /** Failed to download custom waiting room data. */
     MobileRTCCustomWaitingRoomDataStatus_Download_Fail,
 };
 
-/*!
- @brief The WaitingRoom Customize Data Info.
- Here are more detailed structural descriptions..
+/**
+ * @class MobileRTCCustomWaitingRoomData
+ * @brief The WaitingRoom Customize Data Info.
  */
 @interface MobileRTCCustomWaitingRoomData : NSObject
-
 @property (nonatomic, retain) NSString * _Nullable title;
 
 @property (nonatomic, retain) NSString * _Nullable descriptionString;
@@ -51,154 +52,197 @@ typedef NS_ENUM(NSUInteger, MobileRTCCustomWaitingRoomDataStatus) {
 
 @end
 
-/*!
- MobileRTCWaitingRoomServiceDelegate
- @brief Meeting host enabled the waiting room feature, then the delegate will receive this notification  #only for custom UI#.
+/**
+ * @protocol MobileRTCWaitingRoomServiceDelegate
+ * @brief Meeting host enabled the waiting room feature, then the delegate will receive this notification  #only for custom UI#.
  */
 @protocol MobileRTCWaitingRoomServiceDelegate <NSObject>
+
 @optional
 
-/*!
- MobileRTCWaitingRoomServiceDelegate
- @brief Meeting host enabled the waiting room feature, then the delegate will receive this notification  #only for custom UI#.
-         onWaitingRoomUserJoin: will notify the host someone entery the waiting room.
-         onWaitingRoomUserLeft: will notify the host someone left from waiting room.
+/**
+ * @brief Callback event when the meeting host enabled the waiting room feature. Notifies the host that someone entered the waiting room.
+ * @param userId The user ID.
+ * @note Only for custom UI.
  */
 - (void)onWaitingRoomUserJoin:(NSUInteger)userId;
+
+/**
+ * @brief Callback event when the meeting host enabled the waiting room feature. Notifies the host that someone left from the waiting room.
+ * @param userId The user ID.
+ * @note Only for custom UI.
+ */
 - (void)onWaitingRoomUserLeft:(NSUInteger)userId;
 
-/*!
- @brief During the waiting room, this callback event will be triggered when host change audio status.
- @param audioCanTurnOn YES means audio can be turned on. Otherwise not.
+/**
+ * @brief Callback event during the waiting room. Triggered when the host changes audio status.
+ * @param audioCanTurnOn YES if audio can be turned on. Otherwise, NO.
  */
 - (void)onWaitingRoomPresetAudioStatusChanged:(BOOL)audioCanTurnOn;
 
-/*!
- @brief During the waiting room, this callback event will be triggered when host change video status.
- @param videoCanTurnOn YES means video can be turned on. Otherwise not.
+/**
+ * @brief Callback event during the waiting room. Triggered when the host changes video status.
+ * @param videoCanTurnOn YES if video can be turned on. Otherwise, NO.
  */
 - (void)onWaitingRoomPresetVideoStatusChanged:(BOOL)videoCanTurnOn;
 
-/*!
- @brief During the waiting room, this callback event will be triggered when requestCustomWaitingRoomData called.
- @param data The WaitingRoom Customize Data Info.
+/**
+ * @brief Callback event during the waiting room. Triggered when requestCustomWaitingRoomData is called.
+ * @param data The WaitingRoom Customize Data Info.
  */
 - (void)onCustomWaitingRoomDataUpdated:(MobileRTCCustomWaitingRoomData *_Nullable)data;
 
 /**
- * @brief Callback of that waiting room user name changed.
- * @param userID The ID of user whose user name has changed.
- * @param userName The new name of user.
+ * @brief Callback event when the waiting room user name changed.
+ * @param userID The user ID whose user name has changed.
+ * @param userName The new name of the user.
  */
 - (void)onWaitingRoomUserNameChanged:(NSInteger)userID userName:(nonnull NSString *)userName;
 
 @end
 
+/**
+ * @class MobileRTCWaitingRoomService
+ * @brief Interface for managing the waiting room during a meeting.
+ */
 @interface MobileRTCWaitingRoomService : NSObject
 
-/*!
- @brief Waiting Room service delegate.
+/**
+ * @brief Waiting Room service delegate.
  */
 @property (weak, nonatomic) id<MobileRTCWaitingRoomServiceDelegate> _Nullable delegate;
 
-/*!
- @brief Is this meeting support Waiting Room feature.
- @return Yes if support waiting room.
+/**
+ * @brief Determines if this meeting supports Waiting Room feature.
+ * @return YES if supports waiting room. Otherwise, NO.
  */
 -(BOOL)isSupportWaitingRoom;
 
-/*!
- @brief Is this meeting enabled Waiting Room feature.
- @return Yes if enabled.
+/**
+ * @brief Determines if this meeting has Waiting Room feature enabled.
+ * @return YES if enabled. Otherwise, NO.
  */
 -(BOOL)isWaitingRoomOnEntryFlagOn;
 
-/*!
- Query if enableWaitingRoomOnEntry feature locked.
- 
- @return YES means enabled. NO not.
+/**
+ * @brief Queries if enableWaitingRoomOnEntry feature is locked.
+ * @return YES if enabled. Otherwise, NO.
  */
 -(BOOL)isWaitingRoomOnEntryLocked;
-/*!
- @brief enable or disable waiting room feature of this meeting.
- @return the result of this operation.
+
+/**
+ * @brief Enables or disables waiting room feature of this meeting.
+ * @param bEnable YES to enable. Otherwise, NO to disable.
+ * @return The result of this operation.
  */
 - (MobileRTCMeetError)enableWaitingRoomOnEntry:(BOOL)bEnable;
 
-/*!
- @brief get the waiting room user id list.
- @return waiting room user list.
+/**
+ * @brief Gets the waiting room user ID list.
+ * @return Waiting room user list.
  */
 - (nullable NSArray <NSNumber *> *)waitingRoomList;
 
-/*!
- @brief get the user detail information in waiting room.
- @return waiting room user information.
+/**
+ * @brief Gets the user detail information in the waiting room.
+ * @param userId The user ID.
+ * @return The waiting room user information.
  */
 - (nullable MobileRTCMeetingUserInfo*)waitingRoomUserInfoByID:(NSUInteger)userId;
 
-/*!
- @brief admit the user go to meeting fram waiting room.
- @return the result of this operation.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Admits the user to go to the meeting from the waiting room.
+ * @param userId The user ID.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (MobileRTCSDKError)admitToMeeting:(NSUInteger)userId;
 
-/*!
- @brief Permit all of the users currently in the waiting room to join the meeting.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success.
- Otherwise failed, the return is error. For more details, see [MobileRTCSDKError] enum.
+/**
+ * @brief Permits all of the users currently in the waiting room to join the meeting.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)admitAllToMeeting;
-/*!
- @brief put the user to waiting room from meeting.
- @return the result of this operation.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Puts the user to the waiting room from the meeting.
+ * @param userId The user ID.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (MobileRTCSDKError)putInWaitingRoom:(NSUInteger)userId;
 
-/*!
- @brief Determine if the attendee is enabled to turn on audio when joining the meeting.
- @return YES indicates to enable to turn on.
+/**
+ * @brief Determines if the attendee is enabled to turn on audio when joining the meeting.
+ * @return YES if enabled to turn on. Otherwise, NO.
  */
 - (BOOL)isAudioEnabledInWaitingRoom;
 
-/*!
- @brief Determine if the attendee is enabled to turn on video when joining the meeting.
- @return YES indicates to enable to turn on.
+/**
+ * @brief Determines if the attendee is enabled to turn on video when joining the meeting.
+ * @return YES if enabled to turn on. Otherwise, NO.
  */
 - (BOOL)isVideoEnabledInWaitingRoom;
 
-/*!
- @brief Get the WaitingRoom CustomizeData information in the waiting room.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed. To get extended error information, see [MobileRTCSDKError].
+/**
+ * @brief Pre-sets audio mute or unmute status in the waiting room.
+ * @param muteAudio YES to pre-set audio mute. Otherwise, NO to pre-set unmute.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only works in waiting room.
+ */
+- (MobileRTCSDKError)presetAudioInWaitingRoom:(BOOL)muteAudio;
+
+/**
+ * @brief Gets the audio pre-set mute or unmute status in the waiting room.
+ * @return YES if pre-set unmute. Otherwise, NO if pre-set mute.
+ * @warning Only works in waiting room.
+ */
+- (BOOL)isPresetAudioUnmuteInWaitingRoom;
+
+/**
+ * @brief Pre-sets video mute or unmute status in the waiting room.
+ * @param muteVideo YES to pre-set video mute. Otherwise, NO to pre-set unmute.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only works in waiting room.
+ */
+- (MobileRTCSDKError)presetVideoInWaitingRoom:(BOOL)muteVideo;
+
+/**
+ * @brief Gets the video pre-set mute or unmute status in the waiting room.
+ * @return YES if pre-set unmute. Otherwise, NO if pre-set mute.
+ * @warning Only works in waiting room.
+ */
+- (BOOL)isPresetVideoUnmuteInWaitingRoom;
+
+/**
+ * @brief Gets the WaitingRoom CustomizeData information in the waiting room.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)requestCustomWaitingRoomData;
 
 /**
- * @brief Determine if host or cohost is enabled to rename user in the waiting room.
- * @return True indicates to enable to turn on.
+ * @brief Determines if host or co-host is enabled to rename user in the waiting room.
+ * @return YES if enabled. Otherwise, NO.
  */
 - (BOOL)canRenameUser;
 
 /**
- * @brief Change user's screen name in the waiting room.
- * @param userID Tnto waiting room byhe ID of user who is put i host/co-host.
+ * @brief Changes the user's screen name in the waiting room.
+ * @param userID The user ID who is put into waiting room by host or co-host.
  * @param userName The new user name.
- * @return If the function succeeds, it will return MobileRTCSDKError_Success. Otherwise failed.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)renameUser:(NSInteger)userID newUserName:(nonnull NSString * )userName;
 
 /**
- * @brief Determine if host or cohost is enabled to expel user in the waiting room.
- * @return True indicates can expel user.
+ * @brief Determines if host or co-host is enabled to expel user in the waiting room.
+ * @return YES if can expel user. Otherwise, NO.
  */
 - (BOOL)canExpelUser;
 
 /**
- * @brief Remove the specified user from waiting room.
- * @param userID The ID of user who is put into waiting room by host/co-host.
- * @return If the function succeeds, it will return MobileRTCSDKError_Success. Otherwise failed.
+ * @brief Removes the specified user from the waiting room.
+ * @param userID The user ID who is put into waiting room by host or co-host.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
  */
 - (MobileRTCSDKError)expelUser:(NSInteger)userID;
 

@@ -1,214 +1,217 @@
-//
-//  MobileRTCMeetingService+Webinar.h
-//  MobileRTC
-//
-//  Created by chaobai admin on 07/08/2018.
-//  Copyright © 2019 Zoom Video Communications, Inc. All rights reserved.
-//
+/**
+ * @file MobileRTCMeetingService+Webinar.h
+ * @brief Meeting+Webinar service functionality and management.
+ */
 
 #import <MobileRTC/MobileRTC.h>
 
+/**
+ * @brief Interface for webinar meeting.
+ */
 @interface MobileRTCMeetingService (Webinar)
 
-/*!
- @brief Query if the user has the privilege to prompt or demote users in the webinar. 
- @return YES means that user owns the privilege, otherwise not.
+/**
+ * @brief Queries if the user has the privilege to prompt or demote users in the webinar.
+ * @return YES if the user owns the privilege. Otherwise, NO.
  */
 - (BOOL)hasPromptAndDePromptPrivilege;
 
-/*!
- @brief Prompt Attendee to Panelist in Webinar.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Prompts attendee to panelist in Webinar.
+ * @param userID The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)promptAttendee2Panelist:(NSUInteger)userID;
 
-/*!
- @brief Demote the panelist to attendee. 
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Demotes the panelist to attendee.
+ * @param userID The user ID.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)dePromptPanelist2Attendee:(NSUInteger)userID;
 
-/*!
- @brief Set the chat privilege of the panelist.
- @param privilege The chat privilege of the panelist
- @return YES means sucessfull, otherwise not.
- @warning Only meeting host/co-host can run the function.
- @warning Only webinar meeting can run the function.
+/**
+ * @brief Sets the chat privilege of the panelist.
+ * @param privilege The chat privilege of the panelist.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
+ * @warning Only webinar meeting can run the function.
  */
 - (BOOL)changePanelistChatPrivilege:(MobileRTCPanelistChatPrivilegeType)privilege;
 
-/*!
- @brief Get the chat privilege of the panelist.
- @return The chat privilege of the panelist.
+/**
+ * @brief Gets the chat privilege of the panelist.
+ * @return The chat privilege of the panelist.
  */
 - (MobileRTCPanelistChatPrivilegeType)getPanelistChatPrivilege;
-/*!
- @brief Allow attendee to chat.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
- @warning only webinar meeting can run the function.
+/**
+ * @brief Allows or disallows attendee to chat.
+ * @param privilegeType The chat privilege type.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
+ * @warning Only webinar meeting can run the function.
  */
 - (BOOL)allowAttendeeChat:(MobileRTCChatAllowAttendeeChat)privilegeType;
 
-/*!
- @brief get webinar attendee chat privilege type.
- @return The chat privilege type for the  webinar attendee.
+/**
+ * @brief Gets webinar attendee chat privilege type.
+ * @return The chat privilege type for the webinar attendee.
  */
 - (MobileRTCChatAllowAttendeeChat)getWebinarAttendeeChatPrivilege;
 
-/*!
- @brief Query if attendee is allowed to talk in Webinar Meeting.
- @param userID The ID of user to be allowed. 
- @return YES means allowed, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Queries if the attendee is allowed to talk in Webinar Meeting.
+ * @param userID The user ID to be checked.
+ * @return YES if allowed. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)isAllowAttendeeTalk:(NSUInteger)userID;
 
-/*!
- @brief Allow attendee to talk in webinar.
- @param userID The ID of user to be allowed
- @param enable Enable/Disable to talk
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Allows or disallows attendee to talk in webinar.
+ * @param userID The user ID to be allowed.
+ * @param enable YES to enable. Otherwise, NO to disable.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)allowAttenddeTalk:(NSUInteger)userID allow:(BOOL)enable;
 
-/*!
- @brief Query if Panelist can start video in Webinar Meeting.
- @return YES means able, otherwise not.
+/**
+ * @brief Queries if panelist can start video in Webinar Meeting.
+ * @return YES if able. Otherwise, NO.
  */
 - (BOOL)isAllowPanelistStartVideo;
 
-/*!
- @brief Allow Panelist to start video in Webinar.
- @param enable Enable/Disable Panelist to start video.
- @return YES means that the method is called successfully, otherwise not.
- @warning Only meeting host/co-host can run the function.
+/**
+ * @brief Allows or disallows panelist to start video in Webinar.
+ * @param enable YES to enable. Otherwise, NO to disable.
+ * @return If the function succeeds, it returns YES. Otherwise, NO.
+ * @warning Only meeting host or co-host can run the function.
  */
 - (BOOL)allowPanelistStartVideo:(BOOL)enable;
 
-/*!
- @brief Determine if current webinar supports emoji reactions.
- @return YES means the current webinar supports emoji reactions, NO means the feature is not supported.
+/**
+ * @brief Determines if current webinar supports emoji reactions.
+ * @return YES means the current webinar supports emoji reactions, NO means the feature is not supported.
  */
 - (BOOL)isWebinarEmojiReactionSupported;
 
-/*!
-@brief Query if emoji reactions status.
-@return webinar emoji reaction be allowed or not
-*/
+/**
+ * @brief Queries if emoji reactions status is allowed.
+ * @return YES if webinar emoji reaction is allowed. Otherwise, NO.
+ */
 - (BOOL)isWebinarEmojiReactionAllowed;
 
-/*!
- @brief permitted to use emoji reactions.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning  If the function succeeds, the user will receive the callback onAllowWebinarReactionStatusChanged:. Available only for the host.
-*/
+/**
+ * @brief Permits the use of emoji reactions.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the callback onAllowWebinarReactionStatusChanged:. Available only for the host.
+ */
 - (MobileRTCSDKError)allowWebinarEmojiReaction;
 
-/*!
- @brief Forbid use of emoji reactions.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning  If the function succeeds, the user will receive the callback onAllowWebinarReactionStatusChanged:. Available only for the host.
-*/
+/**
+ * @brief Forbids the use of emoji reactions.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the callback onAllowWebinarReactionStatusChanged:. Available only for the host.
+ */
 - (MobileRTCSDKError)disallowWebinarEmojiReaction;
 
-/*!
- @brief Query if attendee raise hand status.
- @return webinar attendee allow to reaise hand or not.
-*/
+/**
+ * @brief Queries if attendee raise hand status is allowed.
+ * @return YES if webinar attendee is allowed to raise hand. Otherwise, NO.
+ */
 - (BOOL)isAttendeeRaiseHandAllowed;
 
-/*!
- @brief The attendee is allowed to use the raise hand.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning If the function succeeds, the user will receive the callback onAllowAttendeeRiseHandStatusChanged:. Available only for the host.
-*/
+/**
+ * @brief Allows the attendee to use the raise hand.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the callback onAllowAttendeeRiseHandStatusChanged:. Available only for the host.
+ */
 - (MobileRTCSDKError)allowAttendeeRaiseHand;
 
-/*!
- @brief Do not letthe attendee to raise their hand.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning If the function succeeds, the user will receive the callback onAllowAttendeeRiseHandStatusChanged:. Available only for the host.
-*/
+/**
+ * @brief Does not let the attendee raise their hand.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the callback onAllowAttendeeRiseHandStatusChanged:. Available only for the host.
+ */
 - (MobileRTCSDKError)disallowAttendeeRaiseHand;
 
-/*!
- @brief Query if attendee to view the participant count.
- @return If it allow, the return value is YES, otherwise NO.
-*/
+/**
+ * @brief Queries if attendee is allowed to view the participant count.
+ * @return YES if allowed. Otherwise, NO.
+ */
 - (BOOL)isAttendeeViewTheParticipantCountAllowed;
 
-/*!
- @brief The attendee is allow to view the participant count.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning If the function succeeds, the user will receive the onAllowAttendeeViewTheParticipantCountStatusChanged: callback event. Available only for the host.
-*/
+/**
+ * @brief Allows the attendee to view the participant count.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the onAllowAttendeeViewTheParticipantCountStatusChanged: callback event. Available only for the host.
+ */
 - (MobileRTCSDKError)allowAttendeeViewTheParticipantCount;
 
-/*!
- @brief Forbid the attendee to view the participant count.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise the function fails. To get extended error information, see \link MobileRTCSDKError \endlink enum.
- @warning If the function succeeds, the user will receive the onAllowAttendeeViewTheParticipantCountStatusChanged: callback event. Available only for the host.
-*/
+/**
+ * @brief Forbids the attendee to view the participant count.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning If the function succeeds, the user will receive the onAllowAttendeeViewTheParticipantCountStatusChanged: callback event. Available only for the host.
+ */
 - (MobileRTCSDKError)disallowAttendeeViewTheParticipantCount;
 
-/*!
- @brief Get the participant count.
- @return The count of participant.
-*/
+/**
+ * @brief Gets the participant count.
+ * @return The count of participants.
+ */
 - (NSUInteger)getParticipantCount;
 
 /**
- * @brief Set the view mode of the attendee.
+ * @brief Sets the view mode of the attendee.
  * @param mode The view mode of the attendee.
- * @return If the function succeeds, it will return MobileRTCSDKError_Success. Otherwise failed.
- * @warning Only for host call this api, only for zoom ui mode.
+ * @return If the function succeeds, it returns MobileRTCSDKError_Success. Otherwise, this function returns an error.
+ * @warning Only for host to call this API. Only for Zoom UI mode.
  */
 - (MobileRTCSDKError)setAttendeeViewMode:(MobileRTCAttendeeViewMode)mode;
 
 /**
- * @brief Get the view mode of the attendee.
- * @return If the function succeeds, it will return the attendee's view mode. For more details, see @{@link MobileRTCSDKAttendeeViewMode}.
- * @warning Only for host call this api, only for zoom ui mode.
+ * @brief Gets the view mode of the attendee.
+ * @return The attendee's view mode.
+ * @warning Only for host to call this API. Only for Zoom UI mode.
  */
 - (MobileRTCAttendeeViewMode)getAttendeeViewMode;
 
-/*!
- @brief Get poll legal notices prompt.
- @return poll legal notices prompt.
+/**
+ * @brief Gets poll legal notices prompt.
+ * @return The poll legal notices prompt.
  */
 - (NSString *_Nullable)getPollLegalNoticesPrompt;
 
-/*!
- @brief is polling legal notice available.
- @return available or not.
+/**
+ * @brief Determines if polling legal notice is available.
+ * @return YES if available. Otherwise, NO.
  */
 - (BOOL)isPollingLegalNoticeAvailable;
 
-/*!
- @brief Get poll legal notices explained.
- @return poll legal notices explained.
+/**
+ * @brief Gets poll legal notices explained.
+ * @return The poll legal notices explained.
  */
 - (NSString *_Nullable)getPollLegalNoticesExplained;
 
-/*!
- @brief Get poll anonymous legal notices explained.
- @return poll anonymous legal notices explained.
+/**
+ * @brief Gets poll anonymous legal notices explained.
+ * @return The poll anonymous legal notices explained.
  */
 - (NSString *_Nullable)getPollAnonymousLegalNoticesExplained;
 
 /**
- * @brief Get annotation over share legal notices prompt.
- * @return annotation over share legal notices prompt.
+ * @brief Gets annotation over share legal notices prompt.
+ * @return The annotation over share legal notices prompt.
  */
 - (NSString *_Nullable)getWebinarRegistrationLegalNoticesPrompt;
 
 /**
- * @brief Get annotation over share legal notices explained.
- * @return annotation over share legal notices explained.
+ * @brief Gets annotation over share legal notices explained.
+ * @return The annotation over share legal notices explained.
  */
 - (MobileRTCWebinarRegistLegalNoticeContent *_Nullable)getWebinarRegistrationLegalNoticesExplained;
 
